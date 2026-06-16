@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVA HOSPITAL – PHÁT TRIỂN CHIỀU CAO TỐI ƯU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ===== PORTAL SCREEN ===== -->
+  <div id="portal-screen" class="portal-overlay">
+    <div class="portal-bg-grid"></div>
+    <div class="portal-content">
+      <div class="portal-logo">
+        <div class="logo-cross animate-pulse">✚</div>
+        <h1 class="portal-title">NOVA HOSPITAL</h1>
+        <p class="portal-subtitle">CLINICAL DIGITAL OS v2.0</p>
+      </div>
+      
+      <h2 class="portal-prompt">HỆ THỐNG ĐIỀU HÀNH BẢN GIẢNG TƯƠNG TÁC</h2>
+      <p class="portal-desc">Hãy chọn tiết học hội chẩn để truy cập cơ sở dữ liệu:</p>
+      
+      <div class="portal-choices">
+        <div class="portal-card btn-click" id="portal-btn-l1">
+          <div class="portal-card-badge text-teal">TIẾT 1</div>
+          <h3 class="portal-card-title">PHÁT TRIỂN CHIỀU CAO TỐI ƯU</h3>
+          <p class="portal-card-desc">Chẩn đoán thói quen lâm sàng, truy tìm nguyên nhân cốt lõi và kê đơn phác đồ bảo vệ chiều cao.</p>
+          <button class="btn btn-teal btn-lg full-width">🩺 TRUY CẬP HỘI CHẨN</button>
+        </div>
+        
+        <div class="portal-card btn-click" id="portal-btn-l2">
+          <div class="portal-card-badge text-mint">TIẾT 2</div>
+          <h3 class="portal-card-title">CHIẾN DỊCH TRUYỀN THÔNG S</h3>
+          <p class="portal-card-desc">Khảo sát thực trạng cộng đồng, phân tích nguy cơ cơ thể bằng X-Ray và vẽ nháp Poster chiến dịch y tế.</p>
+          <button class="btn btn-mint btn-lg full-width">📢 KÍCH HOẠT CHIẾN DỊCH</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="app-container">
+
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="hospital-logo">
+          <div class="logo-cross">
+            <svg viewBox="0 0 24 24" width="26" height="26">
+              <path fill="#06B6D4" d="M19 10.5h-5.5V5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v5.5H5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h5.5V19c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-5.5H19c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5z"/>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title">NOVA HOSPITAL</span>
+            <span class="logo-subtitle">DIGITAL OS v2.0</span>
+          </div>
+        </div>
+        <div class="status-dot-group">
+          <span class="status-dot"></span>
+          <span class="status-label">LIVE</span>
+        </div>
+      </div>
+
+      <!-- Quick Nav Tabs -->
+      <div class="nav-tabs">
+        <button class="nav-tab-btn active" data-tab="slides">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          <span>Bài Giảng</span>
+        </button>
+        <button class="nav-tab-btn" data-tab="vitals">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15.5h-2v-6h2v6zm0-8h-2v-2h2v2z"/></svg>
+          <span>Sinh Tồn</span>
+        </button>
+        <button class="nav-tab-btn" id="config-btn">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+          <span>Cấu Hình</span>
+        </button>
+      </div>
+
+      <!-- Sidebar Widgets -->
+      <div class="sidebar-widgets">
+        <!-- Global Countdown Timer -->
+        <div class="widget-panel timer-widget">
+          <div class="widget-label">⏱ ĐỒNG HỒ SINH TỒN</div>
+          <div id="sidebar-timer-time" class="big-timer-clock">02:00</div>
+          <div id="global-timer-status" class="timer-status-line">READY</div>
+          <div class="timer-controls">
+            <button id="sidebar-timer-start" class="btn btn-teal btn-sm">▶ START</button>
+            <button id="sidebar-timer-pause" class="btn btn-amber btn-sm" disabled>⏸ PAUSE</button>
+            <button id="sidebar-timer-reset" class="btn btn-surface btn-sm">↺ RESET</button>
+          </div>
+          <div class="preset-row">
+            <button class="preset-btn active" data-time="120">2M</button>
+            <button class="preset-btn" data-time="180">3M</button>
+            <button class="preset-btn" data-time="300">5M</button>
+            <button class="preset-btn" data-time="420">7M</button>
+          </div>
+        </div>
+
+        <!-- Ambient Music -->
+        <div class="widget-panel music-widget">
+          <div class="widget-label">🎵 NHẠC NỀN PHÒNG KHÁM</div>
+          <div class="music-viz" id="music-visualizer">
+            <span class="bar"></span><span class="bar"></span>
+            <span class="bar"></span><span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+          <button id="btn-ambient-music" class="btn btn-surface btn-block">Phát Nhạc Lâm Sàng</button>
+        </div>
+      </div>
+
+      <!-- Lesson Selector Tabs -->
+      <div class="lesson-selector-tabs">
+        <button id="btn-home-portal" class="lesson-tab-btn">🏠 CHỌN TIẾT</button>
+        <button id="btn-lesson-1" class="lesson-tab-btn active">TIẾT 1</button>
+        <button id="btn-lesson-2" class="lesson-tab-btn">TIẾT 2</button>
+      </div>
+
+      <!-- Slide Navigator List -->
+      <nav class="slide-navigation">
+        <div class="nav-group-title">TIẾN TRÌNH HỘI CHẨN</div>
+
+        <!-- LESSON 1 NAV GROUP -->
+        <div id="lesson1-nav-group">
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot teal"></span>
+              <span>HĐ 1: KHỞI ĐỘNG</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item active" data-slide="act1-s1">1.1 Tên Hoạt Động</li>
+              <li class="slide-item" data-slide="act1-s2">1.2 Câu Hỏi Trung Tâm</li>
+              <li class="slide-item" data-slide="act1-s3">1.3 Thảo Luận Cặp Đôi</li>
+              <li class="slide-item" data-slide="act1-s4">1.4 Kết Quả Lâm Sàng</li>
+              <li class="slide-item" data-slide="act1-s5">1.5 3 Yếu Tố Cốt Lõi</li>
+            </ul>
+          </div>
+
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot mint"></span>
+              <span>HĐ 2: TRUY TÌM NGUYÊN NHÂN</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item" data-slide="act2-s1">2.1 Tên Hoạt Động</li>
+              <li class="slide-item" data-slide="act2-s2">2.2 Nhận Ca Bệnh</li>
+              <li class="slide-item" data-slide="act2-s3">2.3 Quy Trình Khám</li>
+              <li class="slide-item" data-slide="act2-s4">2.4 Hội Chẩn Toàn Viện</li>
+              <li class="slide-item" data-slide="act2-s5">2.5 Bảng Đồng Thuận</li>
+            </ul>
+          </div>
+
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot amber"></span>
+              <span>HĐ 3: KÊ ĐƠN</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item" data-slide="act3-s1">3.1 Tên Hoạt Động</li>
+              <li class="slide-item" data-slide="act3-s2">3.2 Chuẩn Bị</li>
+              <li class="slide-item" data-slide="act3-s3">3.3 Quy Tắc Kê Đơn</li>
+              <li class="slide-item" data-slide="act3-s4">3.4 Phác Đồ Khoa Học</li>
+            </ul>
+          </div>
+
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot coral"></span>
+              <span>HĐ 4: SỔ TAY BÁC SĨ</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item" data-slide="act4-s1">4.1 Tên Hoạt Động</li>
+              <li class="slide-item" data-slide="act4-s2">4.2 Thiết Lập Nhật Ký</li>
+              <li class="slide-item" data-slide="act4-s3">4.3 Ghi Chép & Cam Kết</li>
+              <li class="slide-item" data-slide="act4-s4">4.4 Lời Thề Bác Sĩ</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- LESSON 2 NAV GROUP -->
+        <div id="lesson2-nav-group" class="hidden">
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot teal"></span>
+              <span>HĐ 1: KHỞI ĐỘNG</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item" data-slide="l2-s1">2.1 Đăng nhập</li>
+              <li class="slide-item" data-slide="l2-s2">2.2 Game Giải cứu</li>
+            </ul>
+          </div>
+
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot mint"></span>
+              <span>HĐ 2: NHẬN NHIỆM VỤ</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item" data-slide="l2-s3">2.3 Lệnh điều động</li>
+            </ul>
+          </div>
+
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot amber"></span>
+              <span>HĐ 3: KHẢO SÁT THỰC TRẠNG</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item" data-slide="l2-s4">2.4 Bản đồ thói quen</li>
+            </ul>
+          </div>
+
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot coral"></span>
+              <span>HĐ 4: PHÂN TÍCH NGUY CƠ</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item" data-slide="l2-s5">2.5 Máy quét X-Ray</li>
+            </ul>
+          </div>
+
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot teal"></span>
+              <span>HĐ 5: KẾT LUẬN CỘNG ĐỒNG</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item" data-slide="l2-s6">2.6 Biện luận lâm sàng</li>
+            </ul>
+          </div>
+
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot mint"></span>
+              <span>HĐ 6: THIẾT KẾ CHIẾN DỊCH</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item" data-slide="l2-s7">2.7 Thiết kế Poster</li>
+            </ul>
+          </div>
+
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot amber"></span>
+              <span>HĐ 7: NHẬT KÝ BÁC SĨ</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item" data-slide="l2-s8">2.8 Nhật ký số</li>
+            </ul>
+          </div>
+
+          <div class="act-group">
+            <div class="act-header">
+              <span class="act-dot coral"></span>
+              <span>HĐ 8: TƯ DUY PHÒNG BỆNH</span>
+            </div>
+            <ul class="slide-list">
+              <li class="slide-item" data-slide="l2-s9">2.9 Cam kết & Thưởng</li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- ===== MAIN DISPLAY AREA ===== -->
+    <main class="main-content">
+
+      <!-- Clinical Header Bar -->
+      <header class="clinical-header">
+        <div class="header-left">
+          <div class="live-indicator">
+            <div class="live-dot"></div>
+            <span>NOVA OS</span>
+          </div>
+          <h1 id="display-header-topic" class="header-topic">PHÁT TRIỂN CHIỀU CAO TỐI ƯU (NOVA HOSPITAL)</h1>
+        </div>
+        <div class="header-right">
+          <!-- ECG animation -->
+          <svg class="ecg-svg" viewBox="0 0 220 36" width="160" height="28">
+            <path class="ecg-path" d="M0 18 L35 18 L45 8 L50 28 L55 18 L85 18 L95 18 L100 4 L106 32 L111 14 L116 18 L150 18 L160 8 L165 28 L170 18 L220 18" fill="none" stroke="#06B6D4" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <div class="realtime-clock" id="system-time">00:00:00</div>
+        </div>
+      </header>
+
+      <!-- SLIDES VIEWPORT -->
+      <div class="slides-viewport">
+
+        <!-- ════════════════════════════════════════
+             HOẠT ĐỘNG 1: KHỞI ĐỘNG
+        ════════════════════════════════════════ -->
+
+        <!-- Slide 1.1 – Title -->
+        <section id="act1-s1" class="slide active">
+          <div class="bg-grid"></div>
+          <div class="layout-center">
+            <div class="badge badge-teal">⚕ HOẠT ĐỘNG 1: KHỞI ĐỘNG</div>
+            <h1 class="title-xl glow-teal">GHÉP HỒ SƠ BỆNH ÁN</h1>
+
+            <!-- Hospital Gate Illustration -->
+            <div class="hospital-gate-wrap">
+              <svg viewBox="0 0 900 340" class="hospital-svg">
+                <defs>
+                  <radialGradient id="gateGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.18"/>
+                    <stop offset="100%" stop-color="#06B6D4" stop-opacity="0"/>
+                  </radialGradient>
+                  <filter id="neonBlur">
+                    <feGaussianBlur stdDeviation="4" result="b"/>
+                    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                  <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+                    <circle cx="14" cy="14" r="1.2" fill="rgba(6,182,212,0.12)"/>
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#dots)"/>
+
+                <!-- Glow halo -->
+                <ellipse cx="450" cy="170" rx="220" ry="140" fill="url(#gateGlow)"/>
+
+                <!-- Left wing pillar -->
+                <rect x="80" y="60" width="110" height="250" rx="8" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5" opacity="0.7"/>
+                <rect x="90" y="75" width="90" height="15" rx="4" fill="#06B6D4" opacity="0.3"/>
+                <rect x="90" y="100" width="90" height="8" rx="3" fill="rgba(6,182,212,0.15)"/>
+                <rect x="90" y="120" width="90" height="8" rx="3" fill="rgba(6,182,212,0.15)"/>
+                <rect x="90" y="140" width="90" height="8" rx="3" fill="rgba(6,182,212,0.15)"/>
+
+                <!-- Right wing pillar -->
+                <rect x="710" y="60" width="110" height="250" rx="8" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5" opacity="0.7"/>
+                <rect x="720" y="75" width="90" height="15" rx="4" fill="#06B6D4" opacity="0.3"/>
+                <rect x="720" y="100" width="90" height="8" rx="3" fill="rgba(6,182,212,0.15)"/>
+                <rect x="720" y="120" width="90" height="8" rx="3" fill="rgba(6,182,212,0.15)"/>
+                <rect x="720" y="140" width="90" height="8" rx="3" fill="rgba(6,182,212,0.15)"/>
+
+                <!-- Main building -->
+                <rect x="260" y="30" width="380" height="280" rx="14" fill="#1E293B" stroke="#06B6D4" stroke-width="2.5"/>
+                <!-- Roof strip -->
+                <rect x="260" y="30" width="380" height="22" rx="14" fill="rgba(6,182,212,0.15)"/>
+
+                <!-- Cross symbol -->
+                <rect x="435" y="55" width="30" height="90" rx="8" fill="#06B6D4" filter="url(#neonBlur)" opacity="0.9"/>
+                <rect x="408" y="78" width="84" height="30" rx="8" fill="#06B6D4" filter="url(#neonBlur)" opacity="0.9"/>
+
+                <!-- Rotating ring around cross -->
+                <circle cx="450" cy="100" r="58" fill="none" stroke="#06B6D4" stroke-width="1" stroke-dasharray="8 6" opacity="0.4" class="spin-ring"/>
+
+                <!-- Hospital Name -->
+                <text x="450" y="175" font-family="'Montserrat',sans-serif" font-weight="900" font-size="26" fill="#FFFFFF" text-anchor="middle" letter-spacing="5">NOVA HOSPITAL</text>
+                <text x="450" y="200" font-family="'Inter',sans-serif" font-size="12" fill="#06B6D4" text-anchor="middle" letter-spacing="3" opacity="0.8">BỆNH VIỆN KỸ THUẬT SỐ ĐA KHOA</text>
+
+                <!-- Entrance door -->
+                <rect x="385" y="230" width="130" height="80" rx="6" fill="#0A0F1D" stroke="#10B981" stroke-width="1.5"/>
+                <line x1="450" y1="230" x2="450" y2="310" stroke="#10B981" stroke-width="1" opacity="0.5"/>
+
+                <!-- Light beam from door -->
+                <polygon points="420,310 480,310 510,340 390,340" fill="rgba(16,185,129,0.06)"/>
+
+                <!-- Connection lines to pillars -->
+                <line x1="190" y1="160" x2="260" y2="160" stroke="#06B6D4" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+                <line x1="640" y1="160" x2="710" y2="160" stroke="#06B6D4" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+
+                <!-- Data scan line -->
+                <line x1="260" y1="0" x2="640" y2="0" stroke="#06B6D4" stroke-width="1" opacity="0.2" class="scan-line-svg"/>
+              </svg>
+            </div>
+
+            <p class="subtitle-lg">Bệnh viện đa khoa kỹ thuật số Nova Hospital chào mừng các Bác sĩ tương lai!</p>
+          </div>
+        </section>
+
+        <!-- Slide 1.2 – Central Question -->
+        <section id="act1-s2" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-center">
+            <div class="badge badge-coral">📡 CÂU HỎI ĐIỀU HƯỚNG TRUNG TÂM</div>
+            <div class="question-card glass-card">
+              <div class="question-icon">?</div>
+              <h2 id="typing-question" class="typing-heading"></h2>
+            </div>
+            <div class="scan-bar-container">
+              <div class="scan-runner"></div>
+            </div>
+            <p class="subtitle-md">Thảo luận cùng các bạn trong lớp để tìm câu trả lời!</p>
+          </div>
+        </section>
+
+        <!-- Slide 1.3 – Discussion -->
+        <section id="act1-s3" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-split">
+            <div class="col-left">
+              <div class="badge badge-teal">👥 HÌNH THỨC: THẢO LUẬN CẶP ĐÔI</div>
+              <h2 class="title-lg">QUAN SÁT & THẢO LUẬN</h2>
+              <p class="body-text">Quan sát thói quen sinh hoạt của 3 bệnh nhân mẫu. Thảo luận cùng bạn kế bên để chẩn đoán những thói quen xấu ảnh hưởng đến sự phát triển chiều cao.</p>
+              <div class="inline-timer glass-card">
+                <div class="inline-timer-header">
+                  <span class="timer-icon">⏱</span>
+                  <span class="inline-timer-label">THỜI GIAN THẢO LUẬN</span>
+                  <span class="inline-timer-val" id="s13-timer-display">02:00</span>
+                </div>
+                <div class="timer-btn-row">
+                  <button class="btn btn-teal btn-lg" id="s13-start">▶ START</button>
+                  <button class="btn btn-coral btn-lg" id="s13-reset">↺ RESET</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-right">
+              <div class="patients-stack">
+                <div class="patient-bubble glass-card border-coral">
+                  <div class="patient-tag coral" id="lbl-char-1">NHI</div>
+                  <p class="bubble-text">"Mình thích uống nước ngọt có ga thay nước lọc, ăn gà rán mỗi ngày và <strong>lười thể dục</strong> lắm!"</p>
+                </div>
+                <div class="patient-bubble glass-card border-coral">
+                  <div class="patient-tag coral" id="lbl-char-2">NAM</div>
+                  <p class="bubble-text">"Mình thường <strong>ngủ sau 12 giờ đêm</strong> vì chơi game. Hay bỏ bữa sáng và không thích uống sữa."</p>
+                </div>
+                <div class="patient-bubble glass-card border-coral">
+                  <div class="patient-tag coral" id="lbl-char-3">MINH</div>
+                  <p class="bubble-text">"Mình ghét ăn rau và cá, chỉ ăn cơm trắng. Cả ngày chỉ ngồi xem TV, <strong>không vận động</strong>."</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 1.4 – Game Nối Chẩn Đoán -->
+        <section id="act1-s4" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-vertical">
+            <div class="badge badge-teal">🎮 TRÒ CHƠI LÂM SÀNG: GHÉP NỐI CHẨN ĐOÁN</div>
+            <h2 class="title-lg">NỐI THÓI QUEN VỚI NGUYÊN NHÂN LÂM SÀNG</h2>
+            <p class="body-text-center instruction-text">👆 Chọn thẻ <span class="teal-text" style="font-weight:800">bên TRÁI</span>, rồi chọn thẻ <span class="coral-text" style="font-weight:800">bên PHẢI</span> để nối đường dây</p>
+            
+            <div class="matching-game-container" id="matching-game-area">
+              <!-- SVG for drawing connection lines dynamically -->
+              <svg id="matching-svg" class="matching-svg"></svg>
+              
+              <!-- Left Column: Quotes/Habits -->
+              <div class="matching-column left-col">
+
+                <div class="matching-card left-card" data-id="nutrition" id="m-left-nutrition">
+                  <div class="match-illus">
+                    <svg viewBox="0 0 64 64" width="58" height="58">
+                      <circle cx="32" cy="32" r="30" fill="rgba(6,182,212,0.15)" stroke="#06B6D4" stroke-width="2"/>
+                      <ellipse cx="32" cy="25" rx="14" ry="7" fill="#F59E0B"/>
+                      <rect x="18" y="29" width="28" height="6" rx="2" fill="#92400e"/>
+                      <ellipse cx="32" cy="37" rx="14" ry="5" fill="#F59E0B"/>
+                      <rect x="47" y="19" width="11" height="19" rx="3" fill="#F43F5E"/>
+                      <text x="52" y="30" font-size="6" fill="white" text-anchor="middle" font-weight="bold">GA</text>
+                      <line x1="15" y1="15" x2="62" y2="55" stroke="#F43F5E" stroke-width="4.5" stroke-linecap="round"/>
+                      <line x1="62" y1="15" x2="15" y2="55" stroke="#F43F5E" stroke-width="4.5" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="match-card-body">
+                    <div class="match-speaker-label">🧒 Học sinh nói:</div>
+                    <p class="matching-text">"Mình thích uống <strong>nước ngọt có ga</strong> thay nước lọc, ăn <strong>gà rán</strong> mỗi ngày và ghét ăn rau, cá."</p>
+                  </div>
+                  <div class="node-dot right-dot"></div>
+                </div>
+
+                <div class="matching-card left-card" data-id="sleep" id="m-left-sleep">
+                  <div class="match-illus">
+                    <svg viewBox="0 0 64 64" width="58" height="58">
+                      <circle cx="32" cy="32" r="30" fill="rgba(245,158,11,0.15)" stroke="#F59E0B" stroke-width="2"/>
+                      <path d="M 36 12 A 16 16 0 1 1 20 44 A 12 12 0 0 0 36 12 Z" fill="#F59E0B"/>
+                      <circle cx="20" cy="16" r="2" fill="#fde68a"/>
+                      <circle cx="46" cy="22" r="2" fill="#fde68a"/>
+                      <circle cx="14" cy="28" r="1.5" fill="#fde68a"/>
+                      <rect x="26" y="37" width="18" height="14" rx="3" fill="#1e3a8a"/>
+                      <rect x="28" y="39" width="14" height="10" rx="2" fill="#3b82f6"/>
+                      <text x="35" y="46" font-size="6" fill="white" text-anchor="middle" font-weight="bold">12:30</text>
+                    </svg>
+                  </div>
+                  <div class="match-card-body">
+                    <div class="match-speaker-label">🧒 Học sinh nói:</div>
+                    <p class="matching-text">"Mình thường xuyên <strong>thức khuya sau 12h</strong> đêm để chơi game và lướt iPad trên giường."</p>
+                  </div>
+                  <div class="node-dot right-dot"></div>
+                </div>
+
+                <div class="matching-card left-card" data-id="exercise" id="m-left-exercise">
+                  <div class="match-illus">
+                    <svg viewBox="0 0 64 64" width="58" height="58">
+                      <circle cx="32" cy="32" r="30" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="2"/>
+                      <rect x="10" y="38" width="44" height="12" rx="4" fill="#334155"/>
+                      <rect x="10" y="32" width="8" height="14" rx="3" fill="#475569"/>
+                      <rect x="46" y="32" width="8" height="14" rx="3" fill="#475569"/>
+                      <circle cx="40" cy="30" r="6" fill="#fbbf24"/>
+                      <rect x="16" y="32" width="26" height="8" rx="3" fill="#fbbf24"/>
+                      <rect x="8" y="26" width="11" height="16" rx="2.5" fill="#1e3a8a"/>
+                      <rect x="9.5" y="28" width="8" height="12" rx="1.5" fill="#38bdf8"/>
+                      <text x="13.5" y="36" font-size="6" fill="white" text-anchor="middle">▶</text>
+                    </svg>
+                  </div>
+                  <div class="match-card-body">
+                    <div class="match-speaker-label">🧒 Học sinh nói:</div>
+                    <p class="matching-text">"Mình <strong>lười chạy nhảy</strong> thể dục, đi học về chỉ thích <strong>nằm dài</strong> lướt điện thoại xem TikTok."</p>
+                  </div>
+                  <div class="node-dot right-dot"></div>
+                </div>
+
+              </div>
+              
+              <!-- Right Column: Problems/Issues -->
+              <div class="matching-column right-col">
+
+                <div class="matching-card right-card" data-id="nutrition" id="m-right-nutrition">
+                  <div class="node-dot left-dot"></div>
+                  <div class="match-illus">
+                    <svg viewBox="0 0 56 56" width="52" height="52">
+                      <circle cx="28" cy="28" r="26" fill="rgba(244,63,94,0.18)" stroke="#F43F5E" stroke-width="2.5"/>
+                      <path d="M 18 28 Q 14 23 18 19 Q 22 15 26 19 L 38 31 Q 42 35 38 39 Q 34 43 30 39 Z" fill="#F43F5E"/>
+                      <circle cx="18" cy="19" r="6" fill="#F43F5E"/>
+                      <circle cx="38" cy="39" r="6" fill="#F43F5E"/>
+                      <path d="M 28 24 L 25 30 L 31 32 L 28 38" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="match-result-body">
+                    <h3 class="result-title coral-text">🧪 KHÔNG ĐỦ DINH DƯỠNG</h3>
+                    <p class="result-desc">Thiếu <strong>Canxi, Đạm, Vitamin D</strong><br>→ Xương yếu, không cao được</p>
+                  </div>
+                </div>
+
+                <div class="matching-card right-card" data-id="sleep" id="m-right-sleep">
+                  <div class="node-dot left-dot"></div>
+                  <div class="match-illus">
+                    <svg viewBox="0 0 56 56" width="52" height="52">
+                      <circle cx="28" cy="28" r="26" fill="rgba(245,158,11,0.18)" stroke="#F59E0B" stroke-width="2.5"/>
+                      <ellipse cx="28" cy="31" rx="14" ry="11" fill="#F59E0B" opacity="0.9"/>
+                      <path d="M 18 27 Q 22 22 28 27 Q 34 22 38 27" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+                      <path d="M 18 31 Q 22 26 28 31 Q 34 26 38 31" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+                      <text x="28" y="16" font-size="11" fill="#F59E0B" text-anchor="middle" font-weight="900" letter-spacing="2">Zzz</text>
+                      <text x="28" y="50" font-size="9" fill="white" text-anchor="middle" font-weight="900">↓ GH</text>
+                    </svg>
+                  </div>
+                  <div class="match-result-body">
+                    <h3 class="result-title amber-text">🌙 KHÔNG ĐẢM BẢO GIẤC NGỦ</h3>
+                    <p class="result-desc">Mất giờ vàng → Tuyến yên ngừng<br>tiết <strong>Hormone tăng trưởng GH</strong></p>
+                  </div>
+                </div>
+
+                <div class="matching-card right-card" data-id="exercise" id="m-right-exercise">
+                  <div class="node-dot left-dot"></div>
+                  <div class="match-illus">
+                    <svg viewBox="0 0 56 56" width="52" height="52">
+                      <circle cx="28" cy="28" r="26" fill="rgba(16,185,129,0.18)" stroke="#10B981" stroke-width="2.5"/>
+                      <line x1="28" y1="10" x2="28" y2="24" stroke="#10B981" stroke-width="6" stroke-linecap="round"/>
+                      <circle cx="28" cy="28" r="7" fill="none" stroke="#10B981" stroke-width="3"/>
+                      <circle cx="28" cy="28" r="2.5" fill="#10B981"/>
+                      <line x1="28" y1="32" x2="28" y2="48" stroke="#10B981" stroke-width="6" stroke-linecap="round"/>
+                      <line x1="21" y1="21" x2="35" y2="35" stroke="#F43F5E" stroke-width="3" stroke-linecap="round"/>
+                      <line x1="35" y1="21" x2="21" y2="35" stroke="#F43F5E" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="match-result-body">
+                    <h3 class="result-title mint-text">🏃 THIẾU VẬN ĐỘNG</h3>
+                    <p class="result-desc">Sụn tiếp hợp <strong>không được kích thích</strong><br>→ Xương không dài thêm</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            
+            <div class="matching-actions">
+              <button id="btn-check-matching" class="btn btn-teal btn-lg">🔍 KIỂM TRA CHẨN ĐOÁN</button>
+              <button id="btn-reset-matching" class="btn btn-surface btn-lg">↺ LÀM LẠI</button>
+              <div id="matching-feedback" class="matching-feedback"></div>
+            </div>
+            
+          </div>
+        </section>
+
+        <!-- Slide 1.5 – 3 Factors + Skeleton -->
+        <section id="act1-s5" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-split">
+            <div class="col-left">
+              <div class="badge badge-teal">🩺 KẾT LUẬN Y KHOA</div>
+              <h2 class="title-lg">3 YẾU TỐ CỐT LÕI</h2>
+              <p class="body-text">Nhấn vào các điểm cảm biến trên mô hình khung xương để phân tích.</p>
+
+              <div class="factors-list">
+                <div class="factor-item glass-card" id="factor-dinhduong">
+                  <span class="factor-num">01</span>
+                  <div>
+                    <div class="factor-name" id="factor-title-1">Dinh dưỡng</div>
+                    <div class="factor-desc">Canxi, Đạm, Vitamin D – nguyên liệu cấu tạo xương</div>
+                    <div class="factor-science">💡 <strong>Dinh dưỡng ảnh hưởng 32% chiều cao:</strong> Canxi, Đạm và Vitamin D3/K2 cung cấp nguồn nguyên liệu thiết yếu xây dựng cốt xương mới, gia tăng mật độ xương để phát triển chiều cao vượt trội.</div>
+                  </div>
+                </div>
+                <div class="factor-item glass-card" id="factor-giacngu">
+                  <span class="factor-num">02</span>
+                  <div>
+                    <div class="factor-name" id="factor-title-2">Giấc ngủ</div>
+                    <div class="factor-desc">Hormone tăng trưởng tiết mạnh nhất lúc 23h–2h sáng</div>
+                    <div class="factor-science">💡 <strong>Giấc ngủ ảnh hưởng 25% chiều cao:</strong> Tuyến yên tiết ra 75% lượng <strong>Hormone tăng trưởng (GH)</strong> trong ngày vào khoảng 23h - 2h sáng khi ngủ sâu, kích thích kéo dài các đĩa sụn xương.</div>
+                  </div>
+                </div>
+                <div class="factor-item glass-card" id="factor-vandong">
+                  <span class="factor-num">03</span>
+                  <div>
+                    <div class="factor-name" id="factor-title-3">Vận động</div>
+                    <div class="factor-desc">Bật nhảy, kéo giãn kích thích sụn tạo xương mới</div>
+                    <div class="factor-science">💡 <strong>Vận động ảnh hưởng 20% chiều cao:</strong> Hoạt động thể chất (bóng rổ, bơi lội, nhảy dây) tạo xung lực cơ học lên sụn tiếp hợp ở đầu xương, kích thích cốt hóa sụn để xương dài ra.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="conclusion-banner glow-mint">
+                🩺 "Cả 3 yếu tố phải được đảm bảo đồng thời thì xương mới phát triển tốt."
+              </div>
+            </div>
+            <div class="col-right center">
+              <div class="skeleton-wrap glass-card">
+                <svg viewBox="0 0 300 490" class="skeleton-svg" width="260" height="430">
+                  <defs>
+                    <filter id="glow-f">
+                      <feGaussianBlur stdDeviation="6" result="b"/>
+                      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                  </defs>
+                  <!-- skeleton body -->
+                  <circle cx="150" cy="55" r="34" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2.5"/>
+                  <line x1="150" y1="89" x2="150" y2="230" stroke="rgba(255,255,255,0.12)" stroke-width="4" stroke-dasharray="3 5"/>
+                  <path d="M100 125 Q150 105 200 125 M90 158 Q150 132 210 158 M95 192 Q150 168 205 192" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="3"/>
+                  <path d="M122 230 L178 230 L165 265 L135 265 Z" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+                  <path d="M108 115 L72 185 L55 255" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="2"/>
+                  <path d="M192 115 L228 185 L245 255" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="2"/>
+                  <path d="M135 265 L122 370 L118 470" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="3"/>
+                  <path d="M165 265 L178 370 L182 470" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="3"/>
+
+                  <!-- Node: Pituitary / Sleep -->
+                  <g class="skeleton-node" id="node-giacngu" data-factor="giacngu" style="cursor:pointer">
+                    <circle cx="150" cy="55" r="18" fill="rgba(6,182,212,0.12)" stroke="#06B6D4" stroke-width="1.5" class="node-pulse"/>
+                    <circle cx="150" cy="55" r="8" fill="#06B6D4" filter="url(#glow-f)"/>
+                    <text x="150" y="32" fill="#06B6D4" font-size="11" font-family="'Montserrat',sans-serif" font-weight="700" text-anchor="middle">TUYẾN YÊN</text>
+                  </g>
+
+                  <!-- Node: Stomach / Nutrition -->
+                  <g class="skeleton-node" id="node-dinhduong" data-factor="dinhduong" style="cursor:pointer">
+                    <circle cx="150" cy="175" r="18" fill="rgba(16,185,129,0.12)" stroke="#10B981" stroke-width="1.5" class="node-pulse"/>
+                    <circle cx="150" cy="175" r="8" fill="#10B981" filter="url(#glow-f)"/>
+                    <text x="216" y="179" fill="#10B981" font-size="11" font-family="'Montserrat',sans-serif" font-weight="700" text-anchor="middle">TIÊU HÓA</text>
+                  </g>
+
+                  <!-- Node: Knee joint / Exercise -->
+                  <g class="skeleton-node" id="node-vandong" data-factor="vandong" style="cursor:pointer">
+                    <circle cx="178" cy="370" r="18" fill="rgba(244,63,94,0.12)" stroke="#F43F5E" stroke-width="1.5" class="node-pulse"/>
+                    <circle cx="178" cy="370" r="8" fill="#F43F5E" filter="url(#glow-f)"/>
+                    <text x="230" y="374" fill="#F43F5E" font-size="11" font-family="'Montserrat',sans-serif" font-weight="700" text-anchor="middle">SỤN XƯƠNG</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════════
+             HOẠT ĐỘNG 2: HỘI CHẨN
+        ════════════════════════════════════════ -->
+
+        <!-- Slide 2.1 -->
+        <section id="act2-s1" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-center">
+            <div class="badge badge-mint">⚕ HOẠT ĐỘNG 2: TRUY TÌM NGUYÊN NHÂN</div>
+            <h1 class="title-xl glow-mint">THẢO LUẬN & HỘI CHẨN</h1>
+            <div class="ecg-deco">
+              <svg viewBox="0 0 280 50" width="280" height="50">
+                <path d="M0 25 L50 25 L65 8 L72 42 L79 25 L120 25 L135 25 L142 3 L149 47 L156 15 L163 25 L210 25 L225 8 L232 42 L239 25 L280 25" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <p class="subtitle-lg">Nhóm bác sĩ bắt đầu chẩn đoán ca bệnh lâm sàng thực tế!</p>
+            <div class="time-badge-large">⏱ 15 PHÚT</div>
+          </div>
+        </section>
+
+        <!-- Slide 2.2 – Envelopes -->
+        <section id="act2-s2" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-vertical">
+            <div class="badge badge-mint">👥 HÌNH THỨC: NHÓM 4 BÁC SĨ</div>
+            <h2 class="title-lg">NHẬN HỒ SƠ BỆNH ÁN BẢO MẬT</h2>
+            <p class="body-text-center">Đại diện các nhóm lên click chọn một bao hồ sơ để bốc thăm ca bệnh hội chẩn.</p>
+            <div class="envelopes-row" id="envelopes-box-container"></div>
+            <div id="envelope-reveal-message" class="reveal-msg">👆 Nhấn vào một bao hồ sơ để bắt đầu!</div>
+          </div>
+        </section>
+
+        <!-- Slide 2.3 – Flowchart + Timer -->
+        <section id="act2-s3" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-split">
+            <div class="col-left">
+              <div class="badge badge-mint">📋 NHIỆM VỤ CHI TIẾT</div>
+              <h2 class="title-lg">QUY TRÌNH KHÁM BỆNH & CHẨN ĐOÁN</h2>
+              <div class="flowchart">
+                <div class="flow-step glass-card">
+                  <span class="flow-num">1</span>
+                  <div>
+                    <div class="flow-title">Đọc Hồ Sơ Bệnh Án</div>
+                    <div class="flow-desc">Đọc kỹ bệnh án giấy được phát của nhân vật nhóm nhận.</div>
+                  </div>
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step glass-card">
+                  <span class="flow-num">2</span>
+                  <div>
+                    <div class="flow-title">Đánh Dấu Thói Quen Lỗi</div>
+                    <div class="flow-desc">Dùng bút dạ quang gạch chân các thói quen sai lệch.</div>
+                  </div>
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step glass-card border-teal">
+                  <span class="flow-num teal-num">3</span>
+                  <div>
+                    <div class="flow-title teal-text">Phân Loại & Chẩn Đoán</div>
+                    <div class="flow-desc">Xác định lỗi thuộc về: Dinh dưỡng, Giấc ngủ hay Vận động.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-right center">
+              <div class="glass-card timer-ring-card">
+                <div class="card-label teal-text">ĐỒNG HỒ HỘI CHẨN NHÓM LỚN</div>
+                <div class="ring-timer-wrap">
+                  <svg class="ring-svg" width="200" height="200">
+                    <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="14"/>
+                    <circle id="act2-timer-ring" cx="100" cy="100" r="80" fill="none" stroke="#06B6D4" stroke-width="14" stroke-dasharray="502.65" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 100 100)"/>
+                  </svg>
+                  <div class="ring-time-text" id="s23-timer-display">05:00</div>
+                </div>
+                <div class="timer-btn-row">
+                  <button class="btn btn-teal btn-lg" id="s23-start">▶ START</button>
+                  <button class="btn btn-surface btn-lg" id="s23-preset">5 PHÚT</button>
+                  <button class="btn btn-coral btn-lg" id="s23-reset">↺</button>
+                </div>
+                <div id="s23-warning-msg" class="warn-msg hidden">⚠️ Còn 1 phút để hoàn thành hội chẩn!</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 2.4 – Spinner Wheel -->
+        <section id="act2-s4" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-split">
+            <div class="col-left">
+              <div class="badge badge-mint">📢 BÁO CÁO KẾT QUẢ</div>
+              <h2 class="title-lg">HỘI CHẨN LÂM SÀNG TRƯỚC TOÀN VIỆN</h2>
+              <p class="body-text">Đại diện nhóm đứng lên báo cáo theo mẫu chuẩn y khoa:</p>
+              <div class="report-template glass-card">
+                <div class="report-tag">MẪU BÁO CÁO THUYẾT TRÌNH</div>
+                <p class="report-line">"Nhóm tôi gồm các bác sĩ: <em class="ph">[Tên nhóm]</em>"</p>
+                <p class="report-line">"Hồ sơ bệnh án của bạn: <em class="ph">[Tên bệnh nhân]</em>"</p>
+                <p class="report-line">"Các dấu hiệu bất thường: <em class="ph">[Thói quen xấu]</em>"</p>
+                <p class="report-line teal-text">"Chẩn đoán: Yếu tố <em class="ph">[Dinh dưỡng / Giấc ngủ / Vận động]</em>"</p>
+              </div>
+
+              <!-- Nhập tên nhóm -->
+              <div class="group-editor-card glass-card">
+                <div class="card-label teal-text" style="margin-bottom: 8px;">✍️ ĐỔI TÊN CÁC NHÓM TRONG VÒNG QUAY</div>
+                <div class="group-inputs-grid">
+                  <div class="input-wrap">
+                    <span class="color-indicator" style="background:#06B6D4"></span>
+                    <input type="text" class="group-edit-input" data-index="0" value="NHÓM 1">
+                  </div>
+                  <div class="input-wrap">
+                    <span class="color-indicator" style="background:#1E293B; border: 1px solid rgba(255,255,255,0.2)"></span>
+                    <input type="text" class="group-edit-input" data-index="1" value="NHÓM 2">
+                  </div>
+                  <div class="input-wrap">
+                    <span class="color-indicator" style="background:#10B981"></span>
+                    <input type="text" class="group-edit-input" data-index="2" value="NHÓM 3">
+                  </div>
+                  <div class="input-wrap">
+                    <span class="color-indicator" style="background:#1E293B; border: 1px solid rgba(255,255,255,0.2)"></span>
+                    <input type="text" class="group-edit-input" data-index="3" value="NHÓM 4">
+                  </div>
+                  <div class="input-wrap">
+                    <span class="color-indicator" style="background:#F43F5E"></span>
+                    <input type="text" class="group-edit-input" data-index="4" value="NHÓM 5">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-right center">
+              <div class="glass-card spinner-card">
+                <div class="card-label mint-text">VÒNG QUAY CHỌN NHÓM BÁO CÁO</div>
+                <div class="wheel-wrap">
+                  <div class="wheel-pointer-arrow">▼</div>
+                  <canvas id="wheel-canvas" width="240" height="240"></canvas>
+                </div>
+                <button class="btn btn-mint btn-lg full-width" id="spin-wheel-btn">🎰 SPIN WHEEL</button>
+                <div id="spinner-winner-box" class="winner-display">READY</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 2.5 – Results Table -->
+        <section id="act2-s5" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-vertical">
+            <div class="badge badge-mint">✅ ĐỒNG THUẬN Y KHOA</div>
+            <h2 class="title-lg">BẢNG KẾT QUẢ HỘI CHẨN CHUẨN Y KHOA</h2>
+            <p class="body-text-center">Bảng tổng kết chẩn đoán chính thức từ hội đồng y khoa Nova Hospital.</p>
+            <div class="table-wrap glass-card">
+              <table class="clinical-table">
+                <thead>
+                  <tr>
+                    <th>BỆNH NHÂN</th>
+                    <th>DẤU HIỆU LÂM SÀNG BẤT THƯỜNG</th>
+                    <th>YẾU TỐ SAI LỆCH</th>
+                  </tr>
+                </thead>
+                <tbody id="consensus-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════════
+             HOẠT ĐỘNG 3: KÊ ĐƠN
+        ════════════════════════════════════════ -->
+
+        <!-- Slide 3.1 -->
+        <section id="act3-s1" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-center">
+            <div class="badge badge-amber">⚕ HOẠT ĐỘNG 3: KÊ ĐƠN</div>
+            <h1 class="title-xl glow-amber">TÌM GIẢI PHÁP KHOA HỌC</h1>
+            <div class="rx-icon-anim">
+              <svg viewBox="0 0 80 80" width="100" height="100">
+                <rect x="10" y="10" width="60" height="60" rx="12" fill="rgba(245,158,11,0.1)" stroke="#F59E0B" stroke-width="2"/>
+                <text x="40" y="52" font-family="'Montserrat',sans-serif" font-weight="900" font-size="32" fill="#F59E0B" text-anchor="middle">Rx</text>
+              </svg>
+            </div>
+            <p class="subtitle-lg">Thiết lập đơn thuốc cải thiện lối sống để tối ưu hóa chiều cao!</p>
+            <div class="time-badge-large amber-badge">⏱ 12 PHÚT</div>
+          </div>
+        </section>
+
+        <!-- Slide 3.2 – Prescription prep -->
+        <section id="act3-s2" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-split">
+            <div class="col-left">
+              <div class="badge badge-amber">📄 PHÔI ĐƠN THUỐC VẬT LÝ</div>
+              <h2 class="title-lg">CHUẨN BỊ KÊ ĐƠN THUỐC</h2>
+              <p class="body-text">Các nhóm giữ nguyên ca bệnh ở hoạt động trước. Thực hiện gấp đôi tờ giấy A4 để làm "Phôi đơn thuốc".</p>
+              <div class="steps-list glass-card">
+                <h4 class="amber-text">HƯỚNG DẪN LÀM ĐƠN THUỐC:</h4>
+                <ol class="ol-style">
+                  <li>Lấy 1 tờ giấy A4 sạch đặt ngang trên bàn.</li>
+                  <li>Gấp đôi từ trái sang phải tạo nếp chính giữa.</li>
+                  <li>Mặt ngoài ghi: <strong>ĐƠN THUỐC NOVA HOSPITAL</strong></li>
+                  <li>Mặt trong ghi các nội dung điều trị theo 3 bước.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="col-right center">
+              <div class="paper-3d-wrap">
+                <div class="paper-book">
+                  <div class="paper-front">
+                    <div class="paper-logo">🩺 NOVA</div>
+                    <div class="paper-title">ĐƠN THUỐC</div>
+                    <div class="paper-line"></div><div class="paper-line"></div>
+                  </div>
+                  <div class="paper-back">
+                    <div class="paper-rx">Rx</div>
+                    <div class="paper-line"></div><div class="paper-line"></div><div class="paper-line"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 3.3 – Prescription Rules + Timer -->
+        <section id="act3-s3" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-split">
+            <div class="col-left">
+              <div class="badge badge-amber">📋 QUY TẮC KÊ ĐƠN</div>
+              <h2 class="title-lg">QUY TẮC KÊ ĐƠN THUỐC Y KHOA</h2>
+              <p class="body-text">Đơn thuốc phải tuân thủ nghiêm ngặt quy tắc chẩn đoán 3 bước:</p>
+              <div class="rule-steps">
+                <div class="rule-step glass-card">
+                  <div class="rule-icon coral-text">❓</div>
+                  <h4>VẤN ĐỀ</h4>
+                  <p>Phát hiện thói quen sai lầm của bệnh nhân.</p>
+                </div>
+                <div class="rule-connector">→</div>
+                <div class="rule-step glass-card">
+                  <div class="rule-icon teal-text">💊</div>
+                  <h4>GIẢI PHÁP</h4>
+                  <p>Kê đơn hành động cụ thể để khắc phục.</p>
+                </div>
+                <div class="rule-connector">→</div>
+                <div class="rule-step glass-card">
+                  <div class="rule-icon mint-text">🤝</div>
+                  <h4>CAM KẾT</h4>
+                  <p>Đặt mục tiêu đo lường để thực hiện.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-right center">
+              <div class="glass-card timer-ring-card">
+                <div class="card-label amber-text">THỜI GIAN KÊ ĐƠN</div>
+                <div class="big-digital-clock" id="s33-timer-display">04:00</div>
+                <div class="timer-btn-row" style="margin-bottom:12px;">
+                  <button class="btn btn-amber btn-lg" id="s33-start">▶ START</button>
+                  <button class="btn btn-coral btn-lg" id="s33-reset">↺ RESET</button>
+                </div>
+                <button id="s33-ambient-toggle" class="btn btn-surface full-width">🎵 Nhạc Lâm Sàng Tập Trung</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 3.4 – Medical Knowledge Tabs -->
+        <section id="act3-s4" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-vertical">
+            <div class="badge badge-amber">🔬 KIẾN THỨC NỀN TẢNG</div>
+            <h2 class="title-lg">CƠ SỞ KIẾN THỨC Y KHOA CHUẨN ĐỒNG BỘ</h2>
+            <p class="body-text-center">Click chọn từng Tab chuyên khoa để xem cơ sở khoa học kê đơn.</p>
+            <div class="tabs-container glass-card">
+              <div class="tabs-header">
+                <button class="tab-btn active" data-tab-content="tab-dinhduong" id="tab-label-1">🧪 DINH DƯỠNG</button>
+                <button class="tab-btn" data-tab-content="tab-giacngu" id="tab-label-2">🌙 GIẤC NGỦ</button>
+                <button class="tab-btn" data-tab-content="tab-vandong" id="tab-label-3">🏃 VẬN ĐỘNG</button>
+              </div>
+              <div class="tabs-body">
+                <!-- Tab 1 -->
+                <div class="tab-pane active" id="tab-dinhduong">
+                  <div class="tab-two-col">
+                    <div class="tab-info">
+                      <h3 class="teal-text" id="tab-content-title-1">Phác đồ Dinh dưỡng Tối ưu</h3>
+                      <ul class="bullet-list">
+                        <li><strong>Canxi & Vitamin D:</strong> Giúp hấp thụ Canxi cấu tạo xương. Có trong sữa, cá hồi, trứng, ánh nắng buổi sáng.</li>
+                        <li><strong>Đạm (Protein):</strong> Nguyên liệu tạo màng xương và sụn. Có trong thịt bò, gà, cá, đậu nành.</li>
+                      </ul>
+                    </div>
+                    <div class="tab-warning glass-card border-coral">
+                      <div class="warn-title coral-text">⚠ BIỂN BÁO CẤM Y KHOA</div>
+                      <p><strong>CẤM ĐỒ NGỌT & NƯỚC CÓ GA:</strong><br>Axit Phosphoric trong nước ngọt phản ứng kết tủa Canxi, đào thải Canxi qua thận – xương bị xốp và giòn!</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- Tab 2 -->
+                <div class="tab-pane" id="tab-giacngu">
+                  <div class="tab-two-col">
+                    <div class="tab-info">
+                      <h3 class="teal-text" id="tab-content-title-2">Đồng hồ sinh học & Hormone GH</h3>
+                      <ul class="bullet-list">
+                        <li><strong>Ngủ trước 22h:</strong> Giúp cơ thể vào giấc ngủ sâu đúng thời điểm vàng.</li>
+                        <li><strong>Ngủ đủ 8–10 tiếng:</strong> Xương phục hồi và kéo dài trong trạng thái không chịu lực nén.</li>
+                      </ul>
+                    </div>
+                    <div class="gh-chart-card glass-card">
+                      <h4 class="mint-text text-center">BIỂU ĐỒ HORMONE TUYẾN YÊN (GH)</h4>
+                      <svg viewBox="0 0 280 110" width="100%" height="110">
+                        <defs>
+                          <linearGradient id="ghGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#10B981" stop-opacity="0.3"/>
+                            <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+                          </linearGradient>
+                        </defs>
+                        <path d="M 20 85 L 90 85 Q 140 10 190 85 L 265 85" fill="url(#ghGrad)"/>
+                        <path d="M 20 85 L 90 85 Q 140 10 190 85 L 265 85" fill="none" stroke="#10B981" stroke-width="3"/>
+                        <text x="140" y="28" fill="#10B981" font-size="11" font-weight="bold" text-anchor="middle" font-family="Montserrat">ĐỈNH ĐIỂM (23h – 2h)</text>
+                        <text x="20" y="100" fill="rgba(255,255,255,0.4)" font-size="9">20h</text>
+                        <text x="88" y="100" fill="rgba(255,255,255,0.4)" font-size="9">22h</text>
+                        <text x="135" y="100" fill="#10B981" font-size="10" font-weight="bold">23h–2h</text>
+                        <text x="188" y="100" fill="rgba(255,255,255,0.4)" font-size="9">4h</text>
+                        <text x="248" y="100" fill="rgba(255,255,255,0.4)" font-size="9">7h</text>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <!-- Tab 3 -->
+                <div class="tab-pane" id="tab-vandong">
+                  <div class="tab-two-col">
+                    <div class="tab-info">
+                      <h3 class="teal-text" id="tab-content-title-3">Phác đồ Kích thích Vật lý Xương</h3>
+                      <ul class="bullet-list">
+                        <li><strong>Bật nhảy:</strong> Bóng rổ, nhảy dây, bóng chuyền – kích thích sụn tiếp hợp tạo xương mới.</li>
+                        <li><strong>Kéo giãn:</strong> Bơi lội, đu xà, yoga cột sống – giúp sụn xương không bị nén ép.</li>
+                      </ul>
+                    </div>
+                    <div class="golden-time-card glass-card">
+                      <h4 class="text-center font-bold">CHỈ SỐ THỜI GIAN VÀNG</h4>
+                      <div class="golden-val glow-mint">30–45</div>
+                      <div class="golden-unit">PHÚT / NGÀY</div>
+                      <p class="text-center small-text">Luyện tập đều đặn ít nhất 30–45 phút mỗi ngày là điều kiện bắt buộc để kích hoạt chiều cao.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════════
+             HOẠT ĐỘNG 4: SỔ TAY BÁC SĨ
+        ════════════════════════════════════════ -->
+
+        <!-- Slide 4.1 -->
+        <section id="act4-s1" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-center">
+            <div class="badge badge-coral">⚕ HOẠT ĐỘNG 4: SỔ TAY BÁC SĨ</div>
+            <h1 class="title-xl glow-coral">SUY NGẪM & CAM KẾT</h1>
+            <div class="diary-icon">
+              <svg viewBox="0 0 80 80" width="100" height="100">
+                <rect x="8" y="8" width="64" height="64" rx="10" fill="rgba(244,63,94,0.12)" stroke="#F43F5E" stroke-width="2"/>
+                <path fill="#F43F5E" d="M16 16h16v28l-8-5-8 5z"/>
+                <line x1="38" y1="28" x2="60" y2="28" stroke="#F43F5E" stroke-width="3" stroke-linecap="round"/>
+                <line x1="38" y1="42" x2="60" y2="42" stroke="#F43F5E" stroke-width="3" stroke-linecap="round"/>
+                <line x1="16" y1="56" x2="60" y2="56" stroke="#F43F5E" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+              </svg>
+            </div>
+            <p class="subtitle-lg">Liên hệ thực tế bản thân và ký bản cam kết hành động khỏe mạnh!</p>
+            <div class="time-badge-large coral-badge">⏱ 8–10 PHÚT</div>
+          </div>
+        </section>
+
+        <!-- Slide 4.2 – Setup Diary -->
+        <section id="act4-s2" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-split">
+            <div class="col-left">
+              <div class="badge badge-coral">📓 THIẾT KẾ CÁ NHÂN ĐỘC LẬP</div>
+              <h2 class="title-lg">THIẾT LẬP NHẬT KÝ BÁC SĨ</h2>
+              <p class="body-text">Mỗi học sinh tự chuẩn bị 1 tờ giấy A4 sạch để tạo ra cuốn sổ nhỏ mang tên <strong>"Nhật ký Bác sĩ Nova Hospital"</strong>.</p>
+              <div class="steps-list glass-card">
+                <h4 class="coral-text">HƯỚNG DẪN TẠO SỔ TAY MINI:</h4>
+                <ol class="ol-style">
+                  <li>Gấp đôi tờ giấy A4 theo chiều dọc.</li>
+                  <li>Tiếp tục gấp đôi theo chiều ngang.</li>
+                  <li>Tạo thành cuốn sổ nhỏ có 4 trang mở.</li>
+                  <li>Trang bìa viết: <strong>NHẬT KÝ BÁC SĨ [TÊN EM]</strong></li>
+                </ol>
+              </div>
+            </div>
+            <div class="col-right center">
+              <div class="book-demo">
+                <div class="book-spine-el"></div>
+                <div class="book-cover-el">
+                  <span class="book-cross">✚</span>
+                  <span class="book-title-text">NHẬT KÝ BÁC SĨ</span>
+                  <span class="book-subtitle-text">NOVA HOSPITAL</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 4.3 – Reflection + Timer -->
+        <section id="act4-s3" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-split">
+            <div class="col-left">
+              <div class="badge badge-coral">✍ NỘI DUNG NHẬT KÝ</div>
+              <h2 class="title-lg">GHI CHÉP & BẢN CAM KẾT CÁ NHÂN</h2>
+              <div class="reflection-box glass-card">
+                <h4 class="coral-text">3 CÂU HỎI SUY NGẪM SÂU:</h4>
+                <div class="question-item">
+                  <span class="q-num">1</span>
+                  <p>Điều quan trọng nhất em học được hôm nay là gì?</p>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">2</span>
+                  <p>Điều gì làm em cảm thấy bất ngờ nhất?</p>
+                </div>
+                <div class="question-item">
+                  <span class="q-num">3</span>
+                  <p>Lời khuyên nào em muốn gửi cho bản thân ngay bây giờ?</p>
+                </div>
+              </div>
+              <button class="btn btn-teal full-width btn-lg" id="btn-popup-origami" style="margin-top:15px;">📖 Xem Hướng Dẫn Gấp Sổ Tay</button>
+            </div>
+            <div class="col-right center">
+              <div class="glass-card timer-ring-card">
+                <div class="card-label coral-text">THỜI GIAN SUY NGẪM</div>
+                <div class="big-digital-clock" id="s43-timer-display">03:00</div>
+                <div class="timer-btn-row">
+                  <button class="btn btn-teal btn-lg" id="s43-start">▶ START</button>
+                  <button class="btn btn-coral btn-lg" id="s43-reset">↺ RESET</button>
+                </div>
+                <div class="commitment-hint glow-mint">
+                  🤝 Viết cam kết trang cuối sổ:<br>
+                  <em>"Ngủ trước 22h, uống sữa mỗi ngày, vận động 30 phút..."</em>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 4.4 – Oath + Confetti -->
+        <section id="act4-s4" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-center">
+            <div class="badge badge-coral">🏆 TUYÊN THỆ TRƯỚC TOÀN VIỆN</div>
+            <h1 class="title-xl glow-coral">LỜI THỀ BÁC SĨ NOVA HOSPITAL</h1>
+            <p class="subtitle-md">Bác sĩ được chọn ngẫu nhiên cầm Sổ tay lên bục dõng dạc đọc to lời cam kết!</p>
+
+            <div class="picker-card glass-card">
+              <div class="picker-label">BỘ CHỌN NGẪU NHIÊN</div>
+              <div class="picker-row">
+                <button class="btn btn-teal btn-lg" id="btn-random-student">🎲 CHỌN NGẪU NHIÊN</button>
+                <div id="random-student-display" class="digital-pick">NHÓM...</div>
+              </div>
+            </div>
+
+            <div class="oath-actions">
+              <button class="btn btn-mint btn-xl" id="btn-celebration-confetti">🎉 CHÚC MỪNG & VINH DANH</button>
+              <button class="btn btn-surface btn-xl" id="btn-fast-travel">🩺 XEM LẠI 3 YẾU TỐ CỐT LÕI</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════════
+             TIẾT 2: CHIẾN DỊCH TRUYỀN THÔNG CỘNG ĐỒNG
+        ════════════════════════════════════════ -->
+
+        <!-- Slide l2-s1 – Fingerprint Login -->
+        <section id="l2-s1" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-center">
+            <div class="badge badge-teal">⚕ CAM KẾT CHIẾN DỊCH S</div>
+            <h1 class="title-xl glow-teal">HỆ THỐNG ĐIỀU HÀNH</h1>
+            <p class="subtitle-lg">Đăng nhập vân tay bác sĩ để kích hoạt Chiến dịch S</p>
+            
+            <div class="fingerprint-scan-card glass-card">
+              <div class="fingerprint-sensor" id="fingerprint-btn">
+                <svg viewBox="0 0 24 24" width="80" height="80" class="fingerprint-svg">
+                  <path fill="#06B6D4" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <div class="scan-laser-line"></div>
+              </div>
+              <div class="fingerprint-status" id="fingerprint-status-text">CHỜ XÁC THỰC VÂN TAY BÁC SĨ</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide l2-s2 – Game: Giải cứu chiều cao -->
+        <section id="l2-s2" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-vertical" style="justify-content: center; gap: 20px;">
+            <div class="badge badge-teal">🎮 GAME KHỞI ĐỘNG: GIẢI CỨU CHIỀU CAO</div>
+            <h2 class="title-lg">HỘI CHẨN THÓI QUEN LÂM SÀNG</h2>
+            <p class="body-text-center">GV chiếu từng tình huống. HS giơ thẻ hoặc chạm chọn chẩn đoán:</p>
+
+            <div class="l2-warmup-container glass-card" style="width: 100%; max-width: 680px; padding: 40px; text-align: center; margin: 0 auto; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between; border: 2.5px solid rgba(255,255,255,0.08); border-radius: 16px;">
+              <div class="draft-label teal-text" id="l2-warmup-index" style="font-size: 14px; font-weight: 800; letter-spacing: 2px;">THÓI QUEN 1 / 5</div>
+              <h2 class="title-lg" id="l2-warmup-title" style="font-size: clamp(24px, 2.5vw, 32px); color: #fff; margin: 20px 0; font-weight: 900; line-height: 1.4;">Ngủ lúc 23h30 mỗi ngày</h2>
+              
+              <!-- Choices button row -->
+              <div class="l2-warmup-choices" style="display: flex; gap: 20px; justify-content: center; margin: 15px 0;">
+                <button class="btn btn-mint btn-lg" id="btn-warmup-good" style="min-height: 64px; font-size: 18px; padding: 0 30px; font-weight: 800;">🟢 HỖ TRỢ</button>
+                <button class="btn btn-coral btn-lg" id="btn-warmup-bad" style="min-height: 64px; font-size: 18px; padding: 0 30px; font-weight: 800;">🔴 CẢN TRỞ</button>
+              </div>
+              
+              <!-- Feedback display after click -->
+              <div class="l2-warmup-feedback-box hidden" id="l2-warmup-feedback-box" style="padding: 15px 20px; border-radius: 8px; font-size: 18px; font-weight: 700; line-height: 1.5; margin-top: 15px; border: 1px solid transparent;"></div>
+            </div>
+
+            <div class="l2-warmup-navigation" style="display: flex; gap: 20px; justify-content: center; margin-top: 10px;">
+              <button class="btn btn-surface btn-lg" id="btn-warmup-prev" disabled>◀ Trước</button>
+              <button class="btn btn-teal btn-lg" id="btn-warmup-next" disabled>Tiếp Theo ▶</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide l2-s3 – Lệnh điều động -->
+        <section id="l2-s3" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-split">
+            <div class="col-left">
+              <div class="badge badge-mint">📧 THƯ KHẨN MỞ CHIẾN DỊCH</div>
+              <h2 class="title-lg">MỆNH LỆNH CỘNG ĐỒNG</h2>
+              
+              <div class="email-card glass-card">
+                <div class="email-header">
+                  <div class="email-meta">
+                    <div>Từ: <strong>Ban Giám Đốc Bệnh Viện (tgd@novahospital.com)</strong></div>
+                    <div>Gửi: <strong>Bác Sĩ Trưởng Khoa (truongkhoa@novahospital.com)</strong></div>
+                    <div>Chủ đề: <strong>[KHẨN] Chiến dịch truyền thông Chiều cao Dậy thì</strong></div>
+                  </div>
+                </div>
+                <div class="email-body">
+                  <p>Kính gửi Bác sĩ Trưởng khoa,</p>
+                  <p>Tỷ lệ học sinh dậy thì thiếu chiều cao trong cộng đồng đang gia tăng đáng báo động do thói quen sinh hoạt sai lệch.</p>
+                  <p>Yêu cầu bác sĩ trưởng khoa chỉ đạo xây dựng <strong>Poster tuyên truyền y tế chuẩn hóa</strong> gồm 4 tiêu chí bắt buộc để hướng dẫn các em học sinh.</p>
+                </div>
+              </div>
+              <button class="btn btn-mint btn-lg" id="btn-reveal-mindmap" style="margin-top:15px; width: 100%;">🔓 MỞ KHÓA TIÊU CHÍ POSTER</button>
+            </div>
+            
+            <div class="col-right center">
+              <div class="mindmap-container hidden" id="l2-s3-mindmap">
+                <div class="mindmap-core">TIÊU CHÍ POSTER</div>
+                <div class="mindmap-branches" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; width: 100%;">
+                  <div class="mindmap-branch glass-card" style="border-color: var(--coral)">
+                    <span class="branch-icon">❗</span>
+                    <span class="branch-title coral-text">VẤN ĐỀ</span>
+                    <span class="branch-desc">Thói quen xấu cản trở chiều cao</span>
+                  </div>
+                  <div class="mindmap-branch glass-card" style="border-color: var(--amber)">
+                    <span class="branch-icon">⚠️</span>
+                    <span class="branch-title amber-text">HẬU QUẢ</span>
+                    <span class="branch-desc">Tác động xấu đến khung xương</span>
+                  </div>
+                  <div class="mindmap-branch glass-card" style="border-color: var(--mint)">
+                    <span class="branch-icon">💡</span>
+                    <span class="branch-title mint-text">GIẢI PHÁP</span>
+                    <span class="branch-desc">Thói quen y khoa lành mạnh</span>
+                  </div>
+                  <div class="mindmap-branch glass-card" style="border-color: var(--teal)">
+                    <span class="branch-icon">📢</span>
+                    <span class="branch-title teal-text">KHẨU HIỆU</span>
+                    <span class="branch-desc">Lời kêu gọi hành động quyết liệt</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide l2-s4 – Bản đồ thói quen -->
+        <section id="l2-s4" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-vertical">
+            <div class="badge badge-teal">📋 THẢO LUẬN NHÓM</div>
+            <h2 class="title-lg">BẢN ĐỒ THÓI QUEN CHIỀU CAO</h2>
+            <p class="body-text-center">Kéo thả thẻ thói quen vào đúng thư mục y khoa (Hỗ trợ hoặc Cản trở)!</p>
+            
+            <div class="habit-map-desktop">
+              <div class="folder-column" id="folder-supportive">
+                <div class="folder-header mint-text">✅ THƯ MỤC HỖ TRỢ</div>
+                <div class="folder-items-list" id="list-supportive"></div>
+              </div>
+              <div class="folder-column" id="folder-disruptive">
+                <div class="folder-header coral-text">⚠️ THƯ MỤC CẢN TRỞ</div>
+                <div class="folder-items-list" id="list-disruptive"></div>
+              </div>
+            </div>
+            
+            <div class="cards-deck" id="cards-deck-l2">
+              <!-- Dinh dưỡng -->
+              <div class="l2-habit-card" draggable="true" data-good="false" data-id="h1">🥩 Ăn ít chất đạm</div>
+              <div class="l2-habit-card" draggable="true" data-good="false" data-id="h2">🍳 Thường xuyên bỏ bữa sáng</div>
+              <div class="l2-habit-card" draggable="true" data-good="false" data-id="h3">🍿 Ăn vặt nhiều snack ngọt</div>
+              <div class="l2-habit-card" draggable="true" data-good="false" data-id="h4">🥤 Uống nước ngọt thường xuyên</div>
+              
+              <!-- Giấc ngủ -->
+              <div class="l2-habit-card" draggable="true" data-good="false" data-id="h5">🌙 Đi ngủ muộn sau 23h</div>
+              <div class="l2-habit-card" draggable="true" data-good="false" data-id="h6">📱 Lướt điện thoại trước khi ngủ</div>
+              <div class="l2-habit-card" draggable="true" data-good="true" data-id="h7">💤 Đi ngủ sớm, ngủ đủ 8 tiếng</div>
+              <div class="l2-habit-card" draggable="true" data-good="true" data-id="h8">🛌 Ngủ sớm trước 22h tối</div>
+              
+              <!-- Vận động -->
+              <div class="l2-habit-card" draggable="true" data-good="true" data-id="h9">⚽ Chăm chỉ chơi thể thao</div>
+              <div class="l2-habit-card" draggable="true" data-good="false" data-id="h10">🪑 Ngồi nhiều một chỗ lười đi</div>
+              <div class="l2-habit-card" draggable="true" data-good="false" data-id="h11">🎮 Cả ngày chỉ nằm chơi game</div>
+              <div class="l2-habit-card" draggable="true" data-good="true" data-id="h12">🚶 Tích cực đi bộ mỗi ngày</div>
+            </div>
+            
+            <!-- ECG countdown timer -->
+            <div class="inline-timer glass-card" style="margin-top:15px; width: 100%; max-width: 500px; display: flex; align-items: center; justify-content: space-between;">
+              <span class="mint-text font-bold" style="font-size:16px;">⏱ HẾT GIỜ HỘI CHẨN</span>
+              <div class="inline-timer-val" id="l2-s4-timer" style="font-size: 24px;">08:00</div>
+              <div class="timer-btn-row" style="margin-left: 15px;">
+                <button class="btn btn-teal btn-sm" id="l2-s4-timer-start">▶ START</button>
+                <button class="btn btn-surface btn-sm" id="l2-s4-timer-reset">↺</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide l2-s5 – Máy quét X-Ray -->
+        <section id="l2-s5" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-vertical">
+            <div class="badge badge-coral">⚡ CHẨN ĐOÁN LÂM SÀNG</div>
+            <h2 class="title-lg">MÁY QUÉT X-RAY XƯƠNG: PHÂN TÍCH NGUY CƠ</h2>
+            <p class="body-text-center">Nhấn vào từng hàng thói quen xấu để kích hoạt máy quét X-Ray hiển thị hậu quả y khoa.</p>
+            
+            <div class="xray-container">
+              <div class="xray-skeleton-view">
+                <div class="xray-scan-beam" id="xray-laser"></div>
+                <svg viewBox="0 0 100 220" width="160" height="350">
+                  <circle cx="50" cy="30" r="16" fill="none" stroke="rgba(6,182,212,0.4)" stroke-width="2"/>
+                  <line x1="50" y1="46" x2="50" y2="130" stroke="rgba(6,182,212,0.4)" stroke-width="3"/>
+                  <line x1="25" y1="60" x2="75" y2="60" stroke="rgba(6,182,212,0.4)" stroke-width="2.5"/>
+                  <line x1="32" y1="130" x2="32" y2="200" stroke="rgba(6,182,212,0.4)" stroke-width="3"/>
+                  <line x1="68" y1="130" x2="68" y2="200" stroke="rgba(6,182,212,0.4)" stroke-width="3"/>
+                  <circle cx="50" cy="30" r="6" fill="none" stroke="var(--coral)" stroke-width="2" class="node-pulse xray-node hidden" id="xray-head-node"/>
+                  <circle cx="32" cy="165" r="8" fill="none" stroke="var(--coral)" stroke-width="2" class="node-pulse xray-node hidden" id="xray-joint-node"/>
+                  <line x1="50" y1="80" x2="50" y2="110" stroke="var(--coral)" stroke-width="4" class="xray-node hidden" id="xray-spine-node"/>
+                </svg>
+              </div>
+              
+              <div class="glass-card">
+                <table class="diagnostic-table">
+                  <thead>
+                    <tr>
+                      <th>Thói Quen Xấu</th>
+                      <th>Ảnh Hưởng Đến Khung Xương (Sau 1 năm)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="xray-row" data-target="xray-head-node" data-sound="chime">
+                      <td class="coral-text font-bold">💤 Ngủ muộn sau 23h</td>
+                      <td>
+                        <div class="blur-security-bar" id="xray-row-1">
+                          <span class="scanned-text">Tuyến yên bị ức chế, ngừng giải phóng Hormone tăng trưởng GH ➔ Xương không dài thêm.</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="xray-row" data-target="xray-spine-node" data-sound="chime">
+                      <td class="coral-text font-bold">🍔 Thiếu Canxi / Đạm</td>
+                      <td>
+                        <div class="blur-security-bar" id="xray-row-2">
+                          <span class="scanned-text">Khung xương thiếu nguyên chất nền xương, giảm mật độ ➔ Xương giòn và yếu đi.</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="xray-row" data-target="xray-joint-node" data-sound="chime">
+                      <td class="coral-text font-bold">🎮 Lười vận động, nằm nhiều</td>
+                      <td>
+                        <div class="blur-security-bar" id="xray-row-3">
+                          <span class="scanned-text">Không có lực ép cơ học ➔ Đĩa sụn tiếp hợp ngừng nhân đôi tế bào và bị cốt hóa sớm.</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide l2-s6 – Biện luận lâm sàng -->
+        <section id="l2-s6" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-split">
+            <div class="col-left">
+              <div class="badge badge-mint">💡 THẢO LUẬN BIỆN LUẬN</div>
+              <h2 class="title-lg">THÔNG ĐIỆP BÁC SĨ CỐT LÕI</h2>
+              <p class="body-text">Hãy chọn thông điệp y khoa quan trọng nhất để đưa lên vị trí trang trọng của Poster Chiến dịch S:</p>
+              
+              <div class="l2-debate-grid">
+                <div class="l2-debate-btn glass-card" data-correct="false">
+                  <div class="l2-debate-key">A</div>
+                  <div class="l2-debate-text">Chỉ cần ăn uống đủ chất và uống nhiều sữa là đủ cao.</div>
+                </div>
+                <div class="l2-debate-btn glass-card" data-correct="false">
+                  <div class="l2-debate-key">B</div>
+                  <div class="l2-debate-text">Chỉ cần chăm chỉ ngủ thật sớm là đủ cao tối đa.</div>
+                </div>
+                <div class="l2-debate-btn glass-card" data-correct="false">
+                  <div class="l2-debate-key">C</div>
+                  <div class="l2-debate-text">Chỉ cần tập luyện bật nhảy 1 tiếng/ngày là đủ cao.</div>
+                </div>
+                <div class="l2-debate-btn glass-card" data-correct="true">
+                  <div class="l2-debate-key">D</div>
+                  <div class="l2-debate-text">Phải kết hợp đồng bộ cả 3 yếu tố Dinh dưỡng - Giấc ngủ - Vận động.</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-right center">
+              <div class="glass-card spinner-card" style="width: 100%; max-width: 320px;">
+                <div class="card-label mint-text" style="font-size: 11px;">🎰 QUAY CHỌN NHÓM BIỆN LUẬN</div>
+                <div class="wheel-wrap" style="width: 200px; height: 200px;">
+                  <div class="wheel-pointer-arrow">▼</div>
+                  <canvas id="wheel-canvas-l2" width="200" height="200" style="border-radius: 50%;"></canvas>
+                </div>
+                <button class="btn btn-mint btn-lg full-width" id="spin-wheel-btn-l2">🎰 SPIN WHEEL</button>
+                <div id="spinner-winner-box-l2" class="winner-display" style="font-size: 26px;">READY</div>
+              </div>
+              
+              <!-- Nhập tên nhóm Tiết 2 -->
+              <div class="group-editor-card glass-card" style="width: 100%; max-width: 320px; margin-top: 15px; padding: 10px 15px;">
+                <div class="card-label teal-text" style="margin-bottom: 6px; font-size: 11px;">✍️ ĐỔI TÊN CÁC NHÓM TRONG VÒNG QUAY</div>
+                <div class="group-inputs-grid" style="grid-template-columns: repeat(3, 1fr); gap: 6px;">
+                  <div class="input-wrap" style="padding: 4px 6px;">
+                    <input type="text" class="group-edit-input" data-index="0" value="NHÓM 1" style="font-size:12px;">
+                  </div>
+                  <div class="input-wrap" style="padding: 4px 6px;">
+                    <input type="text" class="group-edit-input" data-index="1" value="NHÓM 2" style="font-size:12px;">
+                  </div>
+                  <div class="input-wrap" style="padding: 4px 6px;">
+                    <input type="text" class="group-edit-input" data-index="2" value="NHÓM 3" style="font-size:12px;">
+                  </div>
+                  <div class="input-wrap" style="padding: 4px 6px;">
+                    <input type="text" class="group-edit-input" data-index="3" value="NHÓM 4" style="font-size:12px;">
+                  </div>
+                  <div class="input-wrap" style="padding: 4px 6px;">
+                    <input type="text" class="group-edit-input" data-index="4" value="NHÓM 5" style="font-size:12px;">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide l2-s7 – Thiết kế Poster -->
+        <section id="l2-s7" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-vertical">
+            <div class="badge badge-teal">🎨 PHÒNG THI CÔNG POSTER</div>
+            <h2 class="title-lg">THIẾT KẾ POSTER CHIẾN DỊCH S</h2>
+            <p class="body-text-center">Các nhóm tiến hành vẽ nháp Poster A3 dựa trên cấu trúc y khoa chuẩn hóa đã mở khóa.</p>
+            
+            <div class="poster-draft-wrap">
+              <div class="poster-canvas-mockup">
+                <div class="poster-title-draft">PHÁT TRIỂN CHIỀU CAO TUỔI DẬY THÌ</div>
+                
+                <div class="poster-grid-draft">
+                  <div class="poster-box-draft" style="border-color: var(--coral);">
+                    <div class="draft-label coral-text">❗ Vấn Đề</div>
+                    <div class="draft-text">Thói quen thức khuya, ăn vặt nhiều, lười nhảy dây...</div>
+                  </div>
+                  <div class="poster-box-draft" style="border-color: var(--amber);">
+                    <div class="draft-label amber-text">⚠️ Hậu Quả</div>
+                    <div class="draft-text">Tuyến yên ngừng tiết GH, đĩa sụn tiếp hợp bị cốt hóa sớm.</div>
+                  </div>
+                  <div class="poster-box-draft" style="border-color: var(--mint); grid-column: span 2;">
+                    <div class="draft-label mint-text">💡 Giải Pháp</div>
+                    <div class="draft-text">Ngủ trước 22h, uống sữa tươi hằng ngày, bật nhảy 30 phút.</div>
+                  </div>
+                </div>
+                
+                <div class="poster-slogan-draft">📢 KHẨU HIỆU: KHOẺ MẠNH HÔM NAY - CAO LỚN NGÀY MAI!</div>
+              </div>
+              
+              <div class="glass-card timer-ring-card" style="width: 100%; max-width: 380px;">
+                <div class="card-label teal-text">⏱ THỜI GIAN THI CÔNG</div>
+                <div class="big-digital-clock" id="l2-s7-timer" style="font-size: 52px; margin: 15px 0;">09:00</div>
+                <div class="timer-btn-row">
+                  <button class="btn btn-teal btn-lg" id="l2-s7-timer-start">▶ START</button>
+                  <button class="btn btn-surface btn-lg" id="l2-s7-timer-reset">↺ RESET</button>
+                </div>
+                <div class="clinical-music-bar" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 15px;">
+                  <button class="btn btn-mint btn-sm full-width" id="l2-s7-music-btn">🎵 Bật nhạc lâm sàng tập trung</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide l2-s8 – Nhật ký số -->
+        <section id="l2-s8" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-vertical">
+            <div class="badge badge-amber">✍️ NHẬT KÝ BÁC SĨ</div>
+            <h2 class="title-lg">NHẬT KÝ SỐ: SUY NGẪM Y KHOA</h2>
+            <p class="body-text-center">Hãy ghi chép nhanh suy ngẫm cá nhân vào Sổ tay của bác sĩ.</p>
+            
+            <div class="notepad-wrap">
+              <div class="notepad-header">
+                <span class="notepad-title">📓 MEDICAL NOTEBOOK v2.0</span>
+                <span class="small-text teal-text" id="l2-s8-q-num">1 / 3</span>
+              </div>
+              <div class="notepad-page">
+                <div class="notepad-question" id="l2-s8-q-text">1. Xung quanh em có nhiều bạn đang gặp thói quen cản trở chiều cao nào nhất?</div>
+                <div class="notepad-actions">
+                  <button class="btn btn-surface btn-md" id="l2-s8-prev-q" disabled>◀ Trước</button>
+                  <button class="btn btn-teal btn-md" id="l2-s8-next-q">Sau ▶</button>
+                </div>
+              </div>
+              <div class="notepad-progress-bar">
+                <div class="notepad-progress-fill" id="l2-s8-progress"></div>
+              </div>
+            </div>
+            
+            <div style="margin-top:15px; display:flex; gap:10px;">
+              <button class="btn btn-surface btn-sm" id="l2-s8-timer-start">▶ BẮT ĐẦU 3 PHÚT VIẾT</button>
+              <button class="btn btn-coral btn-sm" id="l2-s8-timer-reset">↺ RESET</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide l2-s9 – Cam kết & Khen thưởng -->
+        <section id="l2-s9" class="slide">
+          <div class="bg-grid"></div>
+          <div class="layout-center">
+            <div class="badge badge-mint">🏆 HOÀN THÀNH CHIẾN DỊCH</div>
+            <h1 class="title-xl glow-mint">CAM KẾT HÀNH ĐỘNG</h1>
+            <p class="subtitle-md">Mỗi bác sĩ tích chọn 1 cam kết thay đổi thói quen quyết liệt cho tuần mới!</p>
+            
+            <div class="l2-check-list">
+              <div class="l2-check-item glass-card checked">
+                <div class="l2-check-box">✓</div>
+                <div class="l2-check-text">🥦 Uống 500ml sữa tươi và ăn uống đầy đủ Canxi, Đạm hằng ngày.</div>
+              </div>
+              <div class="l2-check-item glass-card">
+                <div class="l2-check-box">✓</div>
+                <div class="l2-check-text">🌙 Nhất quyết tắt thiết bị điện tử và đi ngủ trước 22h tối.</div>
+              </div>
+              <div class="l2-check-item glass-card">
+                <div class="l2-check-box">✓</div>
+                <div class="l2-check-text">🏃 Thực hiện các động tác bật nhảy, nhảy dây ít nhất 30 phút mỗi ngày.</div>
+              </div>
+            </div>
+            
+            <div class="oath-actions" style="margin-top:20px;">
+              <button class="btn btn-mint btn-xl" id="btn-finish-campaign">🏆 HOÀN THÀNH CHIẾN DỊCH S</button>
+              <button class="btn btn-surface btn-xl" id="btn-l2-return">🩺 QUAY LẠI CÂU HỎI LỚN</button>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /slides-viewport -->
+
+      <!-- ===== ARROW NAVIGATION CONTROLS ===== -->
+      <div class="slide-nav-controls">
+        <button class="nav-arrow-btn prev-btn" id="prev-slide-btn" title="Slide trước (←)">
+          <svg viewBox="0 0 24 24" width="28" height="28">
+            <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        </button>
+
+        <div class="slide-counter-wrap">
+          <div class="slide-progress-bar">
+            <div class="slide-progress-fill" id="slide-progress-fill"></div>
+          </div>
+          <span class="slide-counter-text" id="slide-counter-text">1 / 18</span>
+        </div>
+
+        <button class="nav-arrow-btn next-btn" id="next-slide-btn" title="Slide tiếp theo (→)">
+          <svg viewBox="0 0 24 24" width="28" height="28">
+            <path fill="currentColor" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+          </svg>
+        </button>
+      </div>
+
+    </main>
+  </div><!-- /app-container -->
+
+  <!-- CONFIG MODAL -->
+  <div class="overlay" id="config-modal">
+    <div class="modal-panel glass-card">
+      <div class="modal-header">
+        <h3>⚙️ CẤU HÌNH BIẾN TOÀN CỤC</h3>
+        <button class="close-btn" id="config-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="body-text">Thay đổi tại đây sẽ tự động cập nhật đồng bộ toàn bộ nội dung 18 slide.</p>
+        <form id="global-config-form">
+          <div class="form-group">
+            <label>Tên chủ đề / Bối cảnh:</label>
+            <input type="text" id="cfg-topic" class="form-input" value="PHÁT TRIỂN CHIỀU CAO TỐI ƯU (NOVA HOSPITAL)">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Số lượng yếu tố cốt lõi:</label>
+              <input type="number" id="cfg-factor-count" class="form-input" value="3" min="1" max="5">
+            </div>
+            <div class="form-group">
+              <label>Danh sách yếu tố (phân cách bởi –):</label>
+              <input type="text" id="cfg-factor-names" class="form-input" value="Dinh dưỡng – Giấc ngủ – Vận động">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tên nhân vật mẫu lỗi (phân cách phẩy):</label>
+              <input type="text" id="cfg-char-names" class="form-input" value="Nhi, Nam, Minh">
+            </div>
+            <div class="form-group">
+              <label>Tên hồ sơ bệnh án hội chẩn (phân cách phẩy):</label>
+              <input type="text" id="cfg-files-names" class="form-input" value="Minh, Lâm, My, Nhi, An">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-teal btn-lg full-width">✅ ĐỒNG BỘ HÓA TOÀN BỘ SLIDE</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORIGAMI MODAL -->
+  <div class="overlay" id="origami-modal">
+    <div class="modal-panel glass-card" style="max-width:480px">
+      <div class="modal-header">
+        <h3>📖 HƯỚNG DẪN GẤP SỔ NHẬT KÝ</h3>
+        <button class="close-btn" id="origami-close-btn">✕</button>
+      </div>
+      <div class="modal-body" style="align-items:center;text-align:center">
+        <svg viewBox="0 0 220 200" width="180" height="160">
+          <rect x="20" y="20" width="180" height="130" fill="rgba(6,182,212,0.05)" stroke="#06B6D4" stroke-width="2" rx="4"/>
+          <line x1="110" y1="20" x2="110" y2="150" stroke="#10B981" stroke-dasharray="6 4" stroke-width="2"/>
+          <line x1="20" y1="85" x2="200" y2="85" stroke="#10B981" stroke-dasharray="6 4" stroke-width="2"/>
+          <path d="M 60 55 Q 110 35 160 55" fill="none" stroke="#F43F5E" stroke-width="2" stroke-dasharray="3 3"/>
+          <text x="110" y="180" fill="rgba(255,255,255,0.8)" font-size="13" text-anchor="middle" font-family="Inter">GẤP ĐÔI 2 LẦN → 4 TRANG SỔ</text>
+        </svg>
+        <p class="body-text" style="margin-top:15px">Sử dụng tờ giấy A4. Gấp đôi dọc rồi gấp đôi ngang. Mặt ngoài là bìa nhật ký, mặt trong viết 3 câu hỏi suy ngẫm, mặt cuối ký cam kết hành động.</p>
+      </div>
+    </div>
+  </div>
+
+    <!-- CONGRATULATIONS MODAL -->
+  <div class="overlay" id="congrats-modal">
+    <div class="modal-panel glass-card" style="max-width: 600px; padding: 40px; text-align: center; align-items: center; border-color: var(--mint); box-shadow: 0 0 35px var(--mint-glow);">
+      <div class="modal-header" style="border-bottom: none; justify-content: center; width: 100%;">
+        <h2 class="mint-text glow-mint" style="font-size: 32px; font-family: var(--font-h); font-weight: 900; margin: 0;">🏆 CHÚC MỪNG</h2>
+      </div>
+      <div class="modal-body" style="align-items: center; text-align: center; gap: 20px;">
+        <div style="font-size: 80px; filter: drop-shadow(0 0 15px var(--mint-glow));">🎓</div>
+        <h3 style="color: #fff; font-size: 24px; font-weight: 800; line-height: 1.4; margin: 10px 0;">ĐẠT DANH HIỆU BÁC SĨ CỘNG ĐỒNG</h3>
+        <p class="body-text" style="font-size: 18px; line-height: 1.6; color: #cbd5e1; max-width: 500px;">
+          Chúc mừng tập thể các Bác sĩ đã xuất sắc hoàn thành **Chiến dịch S** và chính thức đạt danh hiệu danh giá **"Bác sĩ Cộng đồng Nova Hospital"**!
+        </p>
+        <p class="mint-text font-bold" style="font-size: 16px; letter-spacing: 0.5px;">
+          🤝 CAM KẾT BẢO VỆ CHIỀU CAO TUỔI DẬY THÌ THÀNH CÔNG!
+        </p>
+        <button class="btn btn-mint btn-lg" id="congrats-close-btn" style="min-height: 60px; font-size: 18px; font-weight: 800; padding: 0 40px; margin-top: 15px;">XÁC NHẬN & ĐỒNG THUẬN 🤝</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
