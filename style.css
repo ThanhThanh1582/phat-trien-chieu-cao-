@@ -337,6 +337,8 @@ ul, ol { list-style: none; }
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   text-align: center; gap: 18px;
+  margin: 0 auto;
+  width: 100%;
 }
 .layout-vertical {
   flex: 1; display: flex; flex-direction: column;
@@ -2225,20 +2227,143 @@ ul, ol { list-style: none; }
 
 
 
-
-/* ==========================================================================
-   TIẾT 3: CHUYÊN GIA TRUYỀN THÔNG SỨC KHỎE
-   ========================================================================== */
-
-/* Responsive portal choices grid for 3 columns */
-.portal-choices {
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+/* Retina scan styles (Slide 3.1) */
+.animate-spin-slow {
+  animation: spin 12s linear infinite;
 }
-#portal-btn-l3:hover {
-  border-color: var(--teal);
-  box-shadow: 0 0 30px rgba(6, 182, 212, 0.2), 0 15px 40px rgba(0, 0, 0, 0.7);
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes laserScan {
+  0%, 100% { top: 10px; opacity: 0.8; }
+  50% { top: 210px; opacity: 0.8; }
+}
+.retina-laser.scanning {
+  animation: laserScan 2.5s ease-in-out infinite;
 }
 
+/* Fact-Check Card Scanning and states (Slide 3.2) */
+.fact-card {
+  transition: all 0.3s ease;
+}
+@keyframes radarSweepHorizontal {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+.fact-card.scanning .radar-scan-bar {
+  animation: radarSweepHorizontal 1s linear infinite;
+}
+.fact-card.correct {
+  border-color: var(--mint) !important;
+  box-shadow: 0 0 15px var(--mint-glow);
+  background: rgba(16, 185, 129, 0.08) !important;
+}
+.fact-card.incorrect {
+  border-color: var(--coral) !important;
+  box-shadow: 0 0 15px var(--coral-glow);
+  background: rgba(244, 63, 94, 0.08) !important;
+}
+
+/* Community Radar & wave columns (Slide 3.3) */
+@keyframes rotateRadar {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.8); opacity: 1; }
+}
+.radar-dot.ping::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: inherit;
+  animation: pulseGlow 1.5s infinite;
+  left: 0;
+  top: 0;
+}
+.radar-dot.ping-slow::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: inherit;
+  animation: pulseGlow 2.5s infinite;
+  left: 0;
+  top: 0;
+}
+.wave-card {
+  transition: all 0.25s ease;
+}
+.wave-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(6, 182, 212, 0.25);
+}
+.wave-card.active {
+  border-color: var(--teal) !important;
+  box-shadow: 0 0 15px var(--teal-glow);
+  background: rgba(6, 182, 212, 0.08) !important;
+}
+.wave-card.active .audio-bar {
+  opacity: 1 !important;
+  animation: audioWavePlay 1.2s ease-in-out infinite alternate;
+}
+.wave-card.active .audio-bar:nth-child(1) { animation-delay: 0.1s; }
+.wave-card.active .audio-bar:nth-child(2) { animation-delay: 0.4s; }
+.wave-card.active .audio-bar:nth-child(3) { animation-delay: 0.2s; }
+.wave-card.active .audio-bar:nth-child(4) { animation-delay: 0.5s; }
+
+@keyframes audioWavePlay {
+  0% { height: 10px; }
+  100% { height: 35px; }
+}
+
+/* Microscope Checklist (Slide 3.4) */
+.check-item-row {
+  transition: all 0.25s ease;
+}
+.check-item-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+.check-item-row.checked {
+  border-color: var(--mint) !important;
+  background: rgba(16, 185, 129, 0.05) !important;
+  box-shadow: 0 0 15px var(--mint-glow);
+}
+.check-item-row.checked .checkbox-hitbox {
+  border-color: var(--mint) !important;
+  background: rgba(16, 185, 129, 0.15);
+}
+.check-item-row.checked .checkbox-hitbox::after {
+  content: '✓';
+}
+
+/* Slogan machine styles (Slide 3.5) */
+.slogan-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+@keyframes laserUpstream {
+  0%, 100% { left: 0%; opacity: 0; }
+  10%, 90% { opacity: 0.8; }
+  50% { left: 100%; opacity: 0.8; }
+}
+.slogan-raw.scanning::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: var(--teal);
+  box-shadow: 0 0 15px var(--teal);
+  animation: laserUpstream 1.5s ease-in-out infinite;
+}
+
+/* Touch Target Hitbox Optimizations (Min 70px) */
 /* Retina scan styles (Slide 3.1) */
 .animate-spin-slow {
   animation: spin 12s linear infinite;
@@ -2384,4 +2509,46 @@ ul, ol { list-style: none; }
 #btn-l3-finish-mission,
 #btn-l3-return-question {
   min-height: 70px !important;
+}
+
+/* ==========================================================================
+   TIẾT 3: CHUYÊN GIA TRUYỀN THÔNG SỨC KHỎE — SLIDE 3.10 & PORTAL FIX
+   ========================================================================== */
+
+.portal-choices {
+  grid-template-columns: repeat(3, 1fr) !important;
+}
+
+#portal-btn-l3:hover {
+  border-color: var(--teal);
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.2), 0 15px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* Certificate Mockup & Selector Styles */
+.cert-select-btn.active {
+  background: var(--mint-dim) !important;
+  border-color: var(--mint) !important;
+  color: var(--mint) !important;
+  box-shadow: 0 0 15px var(--mint-glow) !important;
+}
+
+.cert-award-btn.active {
+  background: var(--amber-dim) !important;
+  border-color: var(--amber) !important;
+  color: var(--amber) !important;
+  box-shadow: 0 0 15px var(--amber-glow) !important;
+}
+
+#certificate-card {
+  transition: all 0.4s var(--ease);
+  position: relative;
+}
+
+#certificate-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+  border-radius: 12px;
 }

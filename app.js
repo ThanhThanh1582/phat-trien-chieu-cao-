@@ -80,7 +80,7 @@ const LESSON2_SLIDES = [
 ];
 
 const LESSON3_SLIDES = [
-  "l3-s1", "l3-s2", "l3-s3", "l3-s4", "l3-s5", "l3-s6", "l3-s7", "l3-s8", "l3-s9"
+  "l3-s1", "l3-s2", "l3-s3", "l3-s4", "l3-s5", "l3-s6", "l3-s7", "l3-s8", "l3-s9", "l3-s10"
 ];
 
 let SLIDE_ORDER = LESSON1_SLIDES;
@@ -120,6 +120,7 @@ window.addEventListener("DOMContentLoaded", () => {
   initL3StarsBroadcast();
   initL3ReflectionTimer();
   initL3Closing();
+  initL3Certificate();
 
   // Run dynamic sync once on startup
   syncConfigToUI();
@@ -1057,6 +1058,7 @@ function initSpinnerWheel() {
 
       drawWheel();
       if (window.drawL2Wheel) window.drawL2Wheel();
+      if (window.drawL3Wheel) window.drawL3Wheel();
     });
   });
 
@@ -2887,6 +2889,7 @@ function initL3StarsBroadcast() {
     }
 
     if (spinBtn) spinBtn.addEventListener("click", spin);
+    window.drawL3Wheel = drawWheel;
     drawWheel();
   }
 
@@ -3006,6 +3009,9 @@ function initL3Closing() {
         setTimeout(() => confettiBtn.click(), 250);
         setTimeout(() => confettiBtn.click(), 500);
       }
+      setTimeout(() => {
+        navigateToSlide("l3-s10");
+      }, 1000);
     });
   }
 
@@ -3014,5 +3020,122 @@ function initL3Closing() {
       playClinicalSound("click");
       navigateToSlide("act1-s2");
     });
+  }
+}
+
+function initL3Certificate() {
+  const selectBtns = document.querySelectorAll(".cert-select-btn");
+  const awardBtns = document.querySelectorAll(".cert-award-btn");
+  const recipientEl = document.getElementById("cert-group-name");
+  const descLabelEl = document.getElementById("cert-desc-label");
+  const awardTitleEl = document.getElementById("cert-award-title");
+  
+  const confettiBtn = document.getElementById("btn-cert-confetti");
+  const backBtn = document.getElementById("btn-cert-back-to-end");
+  
+  function clearActiveClasses() {
+    selectBtns.forEach(btn => btn.classList.remove("active"));
+    awardBtns.forEach(btn => btn.classList.remove("active"));
+  }
+  
+  selectBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.getAttribute("data-index"));
+      const groupName = OS_STATE.spinner.groups[idx] || `NHÓM ${idx + 1}`;
+      
+      clearActiveClasses();
+      btn.classList.add("active");
+      
+      if (recipientEl) recipientEl.textContent = groupName;
+      if (descLabelEl) descLabelEl.textContent = "Trân trọng trao tặng cho tập thể:";
+      if (awardTitleEl) awardTitleEl.textContent = "CHUYÊN GIA TRUYỀN THÔNG SỨC KHỎE";
+      
+      playClinicalSound("chime");
+    });
+  });
+  
+  awardBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const key = btn.getAttribute("data-key");
+      const winnerName = OS_STATE.l3Winners[key];
+      
+      if (!winnerName || winnerName.trim() === "" || winnerName === "[Chưa Bình Chọn]") {
+        alert("Nhóm đạt giải này chưa được bình chọn ở Slide 3.7. Vui lòng nhập tên nhóm:");
+        const winner = prompt("Nhập tên nhóm đạt giải:");
+        if (winner && winner.trim() !== "") {
+          const val = winner.trim();
+          OS_STATE.l3Winners[key] = val;
+          
+          const l3WinnerLabel = document.getElementById(`txt-winner-${key === 'trophy1' ? 'trophy-1' : key === 'trophy2' ? 'trophy-2' : 'trophy-3'}`);
+          if (l3WinnerLabel) l3WinnerLabel.textContent = val;
+          const l3FinalLabel = document.getElementById(`final-winner-${key === 'trophy1' ? '1' : key === 'trophy2' ? '2' : '3'}`);
+          if (l3FinalLabel) l3FinalLabel.textContent = val;
+        } else {
+          return;
+        }
+      }
+      
+      const finalWinnerName = OS_STATE.l3Winners[key];
+      clearActiveClasses();
+      btn.classList.add("active");
+      
+      let title = "CHUYÊN GIA TRUYỀN THÔNG SỨC KHỎE";
+      if (key === "trophy1") title = "POSTER DỄ HIỂU NHẤT";
+      if (key === "trophy2") title = "THÔNG ĐIỆP THUYẾT PHỤC NHẤT";
+      if (key === "trophy3") title = "NHÓM TRÌNH BÀY TỐT NHẤT";
+      
+      if (recipientEl) recipientEl.textContent = finalWinnerName;
+      if (descLabelEl) descLabelEl.textContent = "Chứng nhận thành tích đạt giải thưởng của tập thể:";
+      if (awardTitleEl) awardTitleEl.textContent = title;
+      
+      playClinicalSound("success");
+    });
+  });
+  
+  if (confettiBtn) {
+    confettiBtn.addEventListener("click", () => {
+      playClinicalSound("success");
+      const globalConfettiBtn = document.getElementById("btn-celebration-confetti");
+      if (globalConfettiBtn) {
+        globalConfettiBtn.click();
+        setTimeout(() => globalConfettiBtn.click(), 250);
+      }
+    });
+  }
+  
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      playClinicalSound("click");
+      navigateToSlide("l3-s9");
+    });
+  }
+  
+  const slideObserver = new MutationObserver(() => {
+    const slide = document.getElementById("l3-s10");
+    if (slide && slide.classList.contains("active")) {
+      selectBtns.forEach(btn => {
+        const idx = parseInt(btn.getAttribute("data-index"));
+        btn.textContent = OS_STATE.spinner.groups[idx] || `NHÓM ${idx + 1}`;
+      });
+      
+      awardBtns.forEach(btn => {
+        const key = btn.getAttribute("data-key");
+        const winner = OS_STATE.l3Winners[key];
+        let defaultText = "🏆 Poster Dễ Hiểu";
+        if (key === "trophy2") defaultText = "🏆 Thông Điệp Thuyết Phục";
+        if (key === "trophy3") defaultText = "🏆 Trình Bày Tốt Nhất";
+        
+        if (winner && winner !== "" && winner !== "[Chưa Bình Chọn]") {
+          btn.textContent = `${defaultText}: ${winner}`;
+        } else {
+          btn.textContent = defaultText;
+        }
+      });
+    }
+  });
+  
+  const targetNode = document.getElementById("l3-s10");
+  if (targetNode) {
+    slideObserver.observe(targetNode, { attributes: true, attributeFilter: ["class"] });
   }
 }
