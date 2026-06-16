@@ -79,6 +79,10 @@ const LESSON2_SLIDES = [
   "l2-s1", "l2-s2", "l2-s3", "l2-s4", "l2-s5", "l2-s6", "l2-s7-prep", "l2-s7", "l2-s8", "l2-s9"
 ];
 
+const LESSON3_SLIDES = [
+  "l3-s1", "l3-s2", "l3-s3", "l3-s4", "l3-s5", "l3-s6", "l3-s7", "l3-s8", "l3-s9"
+];
+
 let SLIDE_ORDER = LESSON1_SLIDES;
 
 // INITIALIZATION
@@ -105,6 +109,17 @@ window.addEventListener("DOMContentLoaded", () => {
   initL2PosterMusic();
   initL2Notepad();
   initL2Commitment();
+
+  // Lesson 3 Initializations
+  initL3RetinaScan();
+  initL3FactCheck();
+  initL3RadarGoals();
+  initL3Checklist();
+  initL3SloganUpgrade();
+  initL3Rehearsal();
+  initL3StarsBroadcast();
+  initL3ReflectionTimer();
+  initL3Closing();
 
   // Run dynamic sync once on startup
   syncConfigToUI();
@@ -1576,11 +1591,14 @@ function initLessonSwitcher() {
   const btnHome = document.getElementById("btn-home-portal");
   const btn1 = document.getElementById("btn-lesson-1");
   const btn2 = document.getElementById("btn-lesson-2");
+  const btn3 = document.getElementById("btn-lesson-3");
   const nav1 = document.getElementById("lesson1-nav-group");
   const nav2 = document.getElementById("lesson2-nav-group");
+  const nav3 = document.getElementById("lesson3-nav-group");
   const portal = document.getElementById("portal-screen");
   const portalBtn1 = document.getElementById("portal-btn-l1");
   const portalBtn2 = document.getElementById("portal-btn-l2");
+  const portalBtn3 = document.getElementById("portal-btn-l3");
 
   if (btnHome && portal) {
     btnHome.addEventListener("click", () => {
@@ -1603,10 +1621,18 @@ function initLessonSwitcher() {
     });
   }
 
-  if (!btn1 || !btn2) return;
+  if (portalBtn3 && portal) {
+    portalBtn3.addEventListener("click", () => {
+      switchLesson(3);
+      portal.classList.add("hidden");
+    });
+  }
+
+  if (!btn1 || !btn2 || !btn3) return;
 
   btn1.addEventListener("click", () => switchLesson(1));
   btn2.addEventListener("click", () => switchLesson(2));
+  btn3.addEventListener("click", () => switchLesson(3));
 
   window.switchLesson = function(num) {
     if (btnHome) btnHome.classList.remove("active");
@@ -1614,17 +1640,30 @@ function initLessonSwitcher() {
     if (num === 1) {
       btn1.classList.add("active");
       btn2.classList.remove("active");
+      btn3.classList.remove("active");
       if (nav1) nav1.classList.remove("hidden");
       if (nav2) nav2.classList.add("hidden");
+      if (nav3) nav3.classList.add("hidden");
       SLIDE_ORDER = LESSON1_SLIDES;
       navigateToSlide("act1-s1");
-    } else {
+    } else if (num === 2) {
       btn1.classList.remove("active");
       btn2.classList.add("active");
+      btn3.classList.remove("active");
       if (nav1) nav1.classList.add("hidden");
       if (nav2) nav2.classList.remove("hidden");
+      if (nav3) nav3.classList.add("hidden");
       SLIDE_ORDER = LESSON2_SLIDES;
       navigateToSlide("l2-s1");
+    } else if (num === 3) {
+      btn1.classList.remove("active");
+      btn2.classList.remove("active");
+      btn3.classList.add("active");
+      if (nav1) nav1.classList.add("hidden");
+      if (nav2) nav2.classList.add("hidden");
+      if (nav3) nav3.classList.remove("hidden");
+      SLIDE_ORDER = LESSON3_SLIDES;
+      navigateToSlide("l3-s1");
     }
   };
 }
@@ -2408,3 +2447,572 @@ function initL2Commitment() {
   }
 }
 
+
+// ==========================================================================
+// TIẾT 3: CHUYÊN GIA TRUYỀN THÔNG SỨC KHỎE WIDGETS
+// ==========================================================================
+
+function initL3RetinaScan() {
+  const btn = document.getElementById("btn-retina-scan");
+  const laser = document.getElementById("l3-retina-laser");
+  const feedback = document.getElementById("retina-feedback");
+  if (!btn || !laser || !feedback) return;
+
+  let scanning = false;
+  btn.addEventListener("click", () => {
+    if (scanning) return;
+    scanning = true;
+    btn.disabled = true;
+    feedback.textContent = "⚙️ Đang quét thông tin võng mạc...";
+    feedback.style.color = "var(--teal)";
+    laser.style.opacity = "1";
+    laser.classList.add("scanning");
+    playClinicalSound("click");
+
+    setTimeout(() => {
+      feedback.textContent = "✅ Nhận diện Chuyên gia thành công! Khởi động bảng điều khiển.";
+      feedback.style.color = "var(--mint)";
+      playClinicalSound("success");
+      laser.classList.remove("scanning");
+      laser.style.opacity = "0";
+      
+      setTimeout(() => {
+        scanning = false;
+        btn.disabled = false;
+        feedback.textContent = "Hệ thống chờ nhận diện võng mạc chuyên gia...";
+        feedback.style.color = "#94a3b8";
+        navigateToSlide("l3-s2");
+      }, 1000);
+    }, 2500);
+  });
+}
+
+function initL3FactCheck() {
+  const cards = document.querySelectorAll(".fact-card");
+  if (cards.length === 0) return;
+
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      if (card.classList.contains("correct") || card.classList.contains("incorrect") || card.classList.contains("scanning")) {
+        return;
+      }
+
+      card.classList.add("scanning");
+      playClinicalSound("click");
+      const status = card.querySelector(".fact-status");
+      if (status) status.textContent = "⚙️ SCAN";
+
+      setTimeout(() => {
+        card.classList.remove("scanning");
+        const type = card.getAttribute("data-type");
+        if (type === "myth") {
+          card.classList.add("incorrect");
+          if (status) status.textContent = "❌ MYTH";
+          playClinicalSound("warning");
+        } else {
+          card.classList.add("correct");
+          if (status) status.textContent = "✅ FACT";
+          playClinicalSound("success");
+        }
+      }, 1500);
+    });
+  });
+}
+
+function initL3RadarGoals() {
+  const waveCards = document.querySelectorAll(".wave-card");
+  if (waveCards.length === 0) return;
+
+  waveCards.forEach(card => {
+    card.addEventListener("click", () => {
+      playClinicalSound("click");
+      
+      if (OS_STATE.audio.ctx) {
+        const ctx = OS_STATE.audio.ctx;
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(1200, now);
+        osc.frequency.exponentialRampToValueAtTime(1000, now + 0.15);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(now + 0.18);
+      }
+
+      waveCards.forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+    });
+  });
+}
+
+function initL3Checklist() {
+  const rows = document.querySelectorAll(".check-item-row");
+  if (rows.length === 0) return;
+
+  rows.forEach(row => {
+    row.addEventListener("click", () => {
+      row.classList.toggle("checked");
+      if (row.classList.contains("checked")) {
+        playClinicalSound("success");
+      } else {
+        playClinicalSound("click");
+      }
+    });
+  });
+
+  // Checklist Timer: 7 minutes (420 seconds)
+  initL2Timer(420, "l3-s4-timer-text", "l3-s4-timer-start", "l3-s4-timer-reset");
+}
+
+function initL3SloganUpgrade() {
+  const btnUpgrade = document.getElementById("btn-upgrade-slogan");
+  const btnNext = document.getElementById("btn-next-slogan-set");
+  const rawCard = document.getElementById("slogan-raw-card");
+  const rawText = document.getElementById("txt-slogan-raw");
+  const innerCard = document.getElementById("slogan-card-inner-el");
+  const upgradedText = document.getElementById("txt-slogan-upgraded");
+  
+  if (!btnUpgrade || !btnNext || !rawCard || !rawText || !innerCard || !upgradedText) return;
+
+  const slogans = [
+    {
+      raw: "Ngủ đủ giấc giúp cao hơn",
+      upgraded: "Ngủ sớm hôm nay — Cao hơn ngày mai!"
+    },
+    {
+      raw: "Ăn uống đủ chất bổ sung canxi",
+      upgraded: "Dinh dưỡng chuẩn y khoa — Chiều cao bứt phá!"
+    },
+    {
+      raw: "Chăm chỉ tập thể dục thể thao",
+      upgraded: "Vận động mỗi ngày — Vươn tầm vóc Việt!"
+    }
+  ];
+
+  let currentIndex = 0;
+  let isUpgraded = false;
+  let isTransitioning = false;
+
+  function loadSloganSet(index) {
+    rawText.textContent = slogans[index].raw;
+    upgradedText.textContent = slogans[index].upgraded;
+    
+    innerCard.classList.remove("flipped");
+    isUpgraded = false;
+    
+    const icon = document.getElementById("slogan-right-status-icon");
+    const label = document.getElementById("slogan-right-status-text");
+    if (icon) icon.textContent = "🔒";
+    if (label) label.textContent = "Nhấn nút tia sét để giải mã Slogan";
+  }
+
+  btnUpgrade.addEventListener("click", () => {
+    if (isUpgraded || isTransitioning) return;
+    isTransitioning = true;
+    
+    playClinicalSound("click");
+    rawCard.classList.add("scanning");
+    
+    const icon = document.getElementById("slogan-right-status-icon");
+    const label = document.getElementById("slogan-right-status-text");
+    if (icon) icon.textContent = "⚙️";
+    if (label) label.textContent = "Đang tối ưu hóa dữ liệu ngôn từ...";
+
+    setTimeout(() => {
+      rawCard.classList.remove("scanning");
+      innerCard.classList.add("flipped");
+      playClinicalSound("success");
+      isUpgraded = true;
+      isTransitioning = false;
+    }, 1500);
+  });
+
+  btnNext.addEventListener("click", () => {
+    if (isTransitioning) return;
+    currentIndex = (currentIndex + 1) % slogans.length;
+    playClinicalSound("click");
+    loadSloganSet(currentIndex);
+  });
+
+  loadSloganSet(0);
+}
+
+function initL3Rehearsal() {
+  const timerText = document.getElementById("l3-rehearsal-timer-text");
+  const startBtn = document.getElementById("btn-rehearsal-start");
+  const resetBtn = document.getElementById("btn-rehearsal-reset");
+  
+  const goBtn = document.getElementById("btn-status-go");
+  const nogoBtn = document.getElementById("btn-status-nogo");
+  
+  if (!timerText || !startBtn || !resetBtn || !goBtn || !nogoBtn) return;
+
+  let remaining = 45.00;
+  let timerId = null;
+  let isRunning = false;
+
+  function updateUI() {
+    timerText.textContent = `${remaining.toFixed(2)}s`;
+  }
+
+  startBtn.addEventListener("click", () => {
+    if (isRunning) {
+      clearInterval(timerId);
+      isRunning = false;
+      startBtn.textContent = "▶ START";
+      playClinicalSound("click");
+    } else {
+      isRunning = true;
+      startBtn.textContent = "⏸ PAUSE";
+      playClinicalSound("click");
+      const startTime = Date.now();
+      const startRemaining = remaining;
+      
+      timerId = setInterval(() => {
+        const elapsed = (Date.now() - startTime) / 1000;
+        remaining = startRemaining - elapsed;
+        
+        if (remaining <= 0) {
+          remaining = 0;
+          updateUI();
+          clearInterval(timerId);
+          isRunning = false;
+          startBtn.textContent = "▶ START";
+          playClinicalSound("success");
+          
+          const confettiBtn = document.getElementById("btn-celebration-confetti");
+          if (confettiBtn) confettiBtn.click();
+        } else {
+          updateUI();
+        }
+      }, 30);
+    }
+  });
+
+  resetBtn.addEventListener("click", () => {
+    clearInterval(timerId);
+    isRunning = false;
+    remaining = 45.00;
+    startBtn.textContent = "▶ START";
+    updateUI();
+    playClinicalSound("click");
+  });
+
+  function playHornSound(isGo) {
+    if (!OS_STATE.audio.ctx) {
+      OS_STATE.audio.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    const ctx = OS_STATE.audio.ctx;
+    if (ctx.state === "suspended") ctx.resume();
+    
+    const now = ctx.currentTime;
+    
+    if (isGo) {
+      const playTone = (freq, duration, delay) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(freq, now + delay);
+        gain.gain.setValueAtTime(0, now + delay);
+        gain.gain.linearRampToValueAtTime(0.06, now + delay + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + delay + duration - 0.05);
+        
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(1200, now + delay);
+        
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + delay);
+        osc.stop(now + delay + duration);
+      };
+      
+      playTone(392.00, 0.25, 0); // G4
+      playTone(523.25, 0.5, 0.2); // C5
+      playTone(659.25, 0.6, 0.2); // E5
+    } else {
+      const playSiren = (duration) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "square";
+        
+        osc.frequency.setValueAtTime(180, now);
+        osc.frequency.linearRampToValueAtTime(120, now + duration);
+        
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.08, now + 0.05);
+        gain.gain.linearRampToValueAtTime(0.08, now + duration - 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+        
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(600, now);
+        
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(now + duration);
+      };
+      
+      playSiren(0.8);
+    }
+  }
+
+  goBtn.addEventListener("click", () => {
+    playHornSound(true);
+    goBtn.classList.add("active");
+    nogoBtn.classList.remove("active");
+    setTimeout(() => goBtn.classList.remove("active"), 1000);
+  });
+
+  nogoBtn.addEventListener("click", () => {
+    playHornSound(false);
+    nogoBtn.classList.add("active");
+    goBtn.classList.remove("active");
+    setTimeout(() => nogoBtn.classList.remove("active"), 1000);
+  });
+}
+
+function initL3StarsBroadcast() {
+  const canvas = document.getElementById("l3-spinner-canvas");
+  if (canvas) {
+    const ctx = canvas.getContext("2d");
+    const spinBtn = document.getElementById("btn-l3-spin");
+
+    const groups = OS_STATE.spinner.groups;
+    const colors = OS_STATE.spinner.colors;
+    let startAngle = 0;
+    const arc = Math.PI / (groups.length / 2);
+    let spinTimeout = null;
+
+    let spinAngleStart = 0;
+    let spinTime = 0;
+    let spinTimeTotal = 0;
+
+    function drawWheel() {
+      ctx.clearRect(0, 0, 200, 200);
+      const outsideRadius = 85;
+      const textRadius = 60;
+      const insideRadius = 20;
+
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+      ctx.lineWidth = 2;
+
+      for (let i = 0; i < groups.length; i++) {
+        const angle = startAngle + i * arc;
+        ctx.fillStyle = colors[i];
+
+        ctx.beginPath();
+        ctx.arc(100, 100, outsideRadius, angle, angle + arc, false);
+        ctx.arc(100, 100, insideRadius, angle + arc, angle, true);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.save();
+        ctx.fillStyle = "#FFFFFF";
+        ctx.font = "bold 13px 'Montserrat', sans-serif";
+        ctx.translate(100 + Math.cos(angle + arc / 2) * textRadius, 100 + Math.sin(angle + arc / 2) * textRadius);
+        ctx.rotate(angle + arc / 2 + Math.PI / 2);
+        const text = groups[i];
+        ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+        ctx.restore();
+      }
+
+      ctx.fillStyle = "#0A0F1D";
+      ctx.strokeStyle = colors[0];
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(100, 100, insideRadius, 0, Math.PI * 2, false);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = colors[0];
+      ctx.beginPath();
+      ctx.arc(100, 100, 4, 0, Math.PI * 2, false);
+      ctx.fill();
+    }
+
+    function spin() {
+      if (OS_STATE.spinner.isSpinning) return;
+      OS_STATE.spinner.isSpinning = true;
+      spinAngleStart = Math.random() * 10 + 10;
+      spinTime = 0;
+      spinTimeTotal = Math.random() * 3 + 4 * 1000;
+      rotateWheel();
+    }
+
+    function rotateWheel() {
+      spinTime += 30;
+      if (spinTime >= spinTimeTotal) {
+        stopRotateWheel();
+        return;
+      }
+      const spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal);
+      startAngle += (spinAngle * Math.PI / 180);
+      drawWheel();
+      
+      if (Math.floor(startAngle * 10) % 6 === 0) {
+        playClinicalSound("click");
+      }
+      
+      spinTimeout = setTimeout(rotateWheel, 30);
+    }
+
+    function stopRotateWheel() {
+      clearTimeout(spinTimeout);
+      OS_STATE.spinner.isSpinning = false;
+      
+      const degrees = startAngle * 180 / Math.PI + 90;
+      const arcd = arc * 180 / Math.PI;
+      const index = Math.floor((360 - degrees % 360) / arcd);
+      const safeIndex = (index + groups.length) % groups.length;
+      const winner = groups[safeIndex];
+      
+      playClinicalSound("chime");
+      alert("🎉 Nhóm được chọn thuyết trình: " + winner + "!");
+      const confettiBtn = document.getElementById("btn-celebration-confetti");
+      if (confettiBtn) confettiBtn.click();
+    }
+
+    function easeOut(t, b, c, d) {
+      const ts = (t /= d) * t;
+      const tc = ts * t;
+      return b + c * (tc + -3 * ts + 3 * t);
+    }
+
+    if (spinBtn) spinBtn.addEventListener("click", spin);
+    drawWheel();
+  }
+
+  OS_STATE.l3Winners = {
+    trophy1: "",
+    trophy2: "",
+    trophy3: ""
+  };
+
+  const trophy1 = document.getElementById("trophy-vote-1");
+  const trophy2 = document.getElementById("trophy-vote-2");
+  const trophy3 = document.getElementById("trophy-vote-3");
+  
+  const label1 = document.getElementById("txt-winner-trophy-1");
+  const label2 = document.getElementById("txt-winner-trophy-2");
+  const label3 = document.getElementById("txt-winner-trophy-3");
+
+  const final1 = document.getElementById("final-winner-1");
+  const final2 = document.getElementById("final-winner-2");
+  const final3 = document.getElementById("final-winner-3");
+
+  function setupTrophyVote(trophyEl, labelEl, finalEl, key, title) {
+    if (!trophyEl || !labelEl) return;
+    
+    trophyEl.addEventListener("click", () => {
+      const winner = prompt("Nhập tên nhóm đạt giải \"" + title + "\":");
+      if (winner && winner.trim() !== "") {
+        const val = winner.trim();
+        OS_STATE.l3Winners[key] = val;
+        labelEl.textContent = val;
+        trophyEl.classList.add("checked");
+        playClinicalSound("success");
+        
+        if (finalEl) {
+          finalEl.textContent = val;
+        }
+      }
+    });
+  }
+
+  setupTrophyVote(trophy1, label1, final1, "trophy1", "Poster dễ hiểu nhất");
+  setupTrophyVote(trophy2, label2, final2, "trophy2", "Thông điệp thuyết phục nhất");
+  setupTrophyVote(trophy3, label3, final3, "trophy3", "Nhóm trình bày tốt nhất");
+}
+
+function initL3ReflectionTimer() {
+  const displayString = document.getElementById("l3-reflection-time-string");
+  const progressBar = document.getElementById("l3-reflection-progress-bar");
+  
+  if (!displayString || !progressBar) return;
+
+  let duration = 180;
+  let remaining = duration;
+  let timerId = null;
+
+  function updateUI() {
+    const mins = Math.floor(remaining / 60);
+    const secs = remaining % 60;
+    displayString.textContent = String(mins).padStart(2, '0') + ":" + String(secs).padStart(2, '0');
+    
+    const percentage = (remaining / duration) * 100;
+    progressBar.style.width = percentage + "%";
+  }
+
+  function startReflectionTimer() {
+    clearInterval(timerId);
+    remaining = duration;
+    updateUI();
+    
+    timerId = setInterval(() => {
+      if (remaining > 0) {
+        remaining--;
+        updateUI();
+        if (remaining <= 3 && remaining > 0) {
+          playClinicalSound("click");
+        }
+      } else {
+        clearInterval(timerId);
+        playClinicalSound("success");
+        const confettiBtn = document.getElementById("btn-celebration-confetti");
+        if (confettiBtn) confettiBtn.click();
+      }
+    }, 1000);
+  }
+
+  function stopReflectionTimer() {
+    clearInterval(timerId);
+  }
+
+  const slideObserver = new MutationObserver(() => {
+    const slide = document.getElementById("l3-s8");
+    if (slide && slide.classList.contains("active")) {
+      startReflectionTimer();
+    } else {
+      stopReflectionTimer();
+    }
+  });
+
+  const targetNode = document.getElementById("l3-s8");
+  if (targetNode) {
+    slideObserver.observe(targetNode, { attributes: true, attributeFilter: ["class"] });
+  }
+
+  updateUI();
+}
+
+function initL3Closing() {
+  const finishBtn = document.getElementById("btn-l3-finish-mission");
+  const returnBtn = document.getElementById("btn-l3-return-question");
+
+  if (finishBtn) {
+    finishBtn.addEventListener("click", () => {
+      playClinicalSound("success");
+      const confettiBtn = document.getElementById("btn-celebration-confetti");
+      if (confettiBtn) {
+        confettiBtn.click();
+        setTimeout(() => confettiBtn.click(), 250);
+        setTimeout(() => confettiBtn.click(), 500);
+      }
+    });
+  }
+
+  if (returnBtn) {
+    returnBtn.addEventListener("click", () => {
+      playClinicalSound("click");
+      navigateToSlide("act1-s2");
+    });
+  }
+}
