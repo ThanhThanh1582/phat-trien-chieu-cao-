@@ -76,7 +76,7 @@ const LESSON1_SLIDES = [
 ];
 
 const LESSON2_SLIDES = [
-  "l2-s1", "l2-s2", "l2-s3", "l2-s4", "l2-s5", "l2-s6", "l2-s7", "l2-s8", "l2-s9"
+  "l2-s1", "l2-s2", "l2-s3", "l2-s4", "l2-s5", "l2-s6", "l2-s7-prep", "l2-s7", "l2-s8", "l2-s9"
 ];
 
 let SLIDE_ORDER = LESSON1_SLIDES;
@@ -1919,6 +1919,7 @@ function initL2HabitMap() {
         }
         targetFolder.appendChild(card);
         playClinicalSound("chime");
+        checkWinState();
       }
     });
   });
@@ -1958,6 +1959,7 @@ function initL2HabitMap() {
         }
         listEl.appendChild(draggedCard);
         playClinicalSound("chime");
+        checkWinState();
       } else {
         // Incorrect classification - shake and play buzzer sound
         playClinicalSound("warning");
@@ -1969,8 +1971,34 @@ function initL2HabitMap() {
     });
   }
 
+  function checkWinState() {
+    const placedCount = document.querySelectorAll("#cards-deck-l2 .l2-habit-card.placed, .folder-items-list .l2-habit-card.placed").length;
+    if (placedCount === 12) {
+      setTimeout(() => {
+        const modal = document.getElementById("congrats-modal-act1");
+        if (modal) {
+          modal.classList.add("active");
+          playClinicalSound("success");
+          const confettiBtn = document.getElementById("btn-celebration-confetti");
+          if (confettiBtn) confettiBtn.click();
+        }
+      }, 600);
+    }
+  }
+
   setupFolderDropZone(folderSupportive, listSupportive, true);
   setupFolderDropZone(folderDisruptive, listDisruptive, false);
+
+  // Close button logic for Activity 1 congrats modal
+  const closeBtnAct1 = document.getElementById("btn-congrats-close-act1");
+  if (closeBtnAct1) {
+    closeBtnAct1.addEventListener("click", () => {
+      const modal = document.getElementById("congrats-modal-act1");
+      if (modal) modal.classList.remove("active");
+      playClinicalSound("click");
+      navigateToSlide("l2-s5");
+    });
+  }
 
   // Slide 4 Timer (8 minutes = 480s)
   initL2Timer(480, "l2-s4-timer", "l2-s4-timer-start", "l2-s4-timer-reset");
@@ -2026,12 +2054,33 @@ function initL2Debate() {
       if (isCorrect) {
         btn.classList.add("correct");
         playClinicalSound("success");
+        
+        // Show congrats modal for Activity 2 after a short delay
+        setTimeout(() => {
+          const modal = document.getElementById("congrats-modal-act2");
+          if (modal) {
+            modal.classList.add("active");
+            const confettiBtn = document.getElementById("btn-celebration-confetti");
+            if (confettiBtn) confettiBtn.click();
+          }
+        }, 800);
       } else {
         btn.classList.add("incorrect");
         playClinicalSound("warning");
       }
     });
   });
+
+  // Hook up close button for Activity 2 congrats modal
+  const closeBtnAct2 = document.getElementById("btn-congrats-close-act2");
+  if (closeBtnAct2) {
+    closeBtnAct2.addEventListener("click", () => {
+      const modal = document.getElementById("congrats-modal-act2");
+      if (modal) modal.classList.remove("active");
+      playClinicalSound("click");
+      navigateToSlide("l2-s7-prep");
+    });
+  }
 }
 
 function initSpinnerWheelL2() {
